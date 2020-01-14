@@ -1,6 +1,6 @@
-package org.rent.cr.entity.attendent;
+package org.rent.cr.entity;
 
-import org.rent.cr.entity.Price;
+import org.rent.cr.entity.car.Price;
 import org.rent.cr.entity.enums.PeriodType;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ public class Period {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "period", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "period")
     private List<Price> prices;
 
     @Column(name = "periodname")

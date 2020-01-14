@@ -1,6 +1,7 @@
-package org.rent.cr.entity;
+package org.rent.cr.entity.car;
 
-import org.rent.cr.entity.attendent.Period;
+import org.rent.cr.entity.Period;
+import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
 
@@ -14,9 +15,13 @@ public class Price {
     @Column(name = "pricevalue")
     private Float value;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "periodid")
     private Period period;
+
+    @ManyToOne
+    @JoinColumn(name = "carid")
+    private Car car;
 
     public Price() {
     }
@@ -39,5 +44,13 @@ public class Price {
 
     public void setPeriod(Period period) {
         this.period = period;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 }

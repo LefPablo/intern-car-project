@@ -1,5 +1,7 @@
 package org.rent.cr.entity;
 
+import org.rent.cr.entity.car.Car;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -9,6 +11,14 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "carid")
+    private Car car;
+
+    @ManyToOne
+    @JoinColumn(name = "emplid")
+    private Employee employee;
 
     @Column(name = "reservname")
     private String name;

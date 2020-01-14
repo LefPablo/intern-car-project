@@ -1,4 +1,7 @@
-package org.rent.cr.entity.attendent;
+package org.rent.cr.entity.car;
+
+import org.rent.cr.entity.car.Car;
+import org.rent.cr.entity.car.Model;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,10 +11,14 @@ import java.util.List;
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "brandid")
     private Integer id;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "brand")
+    @OneToMany(mappedBy = "brand")
     private List<Model> models;
+
+    @OneToMany(mappedBy = "brand")
+    private List<Car> cars;
 
     @Column(name = "brandname")
     private String name;
@@ -23,7 +30,7 @@ public class Brand {
         return id;
     }
 
-    public List<Model> getModels() {
+        public List<Model> getModels() {
         return models;
     }
 

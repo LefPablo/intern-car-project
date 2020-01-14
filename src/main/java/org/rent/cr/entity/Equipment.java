@@ -1,7 +1,5 @@
 package org.rent.cr.entity;
 
-import org.rent.cr.entity.attendent.Characteristic;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,13 +13,19 @@ public class Equipment {
     @OneToMany (mappedBy="equipment", fetch=FetchType.LAZY)
     private List<Characteristic> characteristics;
 
+    @ManyToMany
+    @JoinTable (name="order_equip",
+            joinColumns=@JoinColumn (name="equipid"),
+            inverseJoinColumns=@JoinColumn(name="orderid"))
+    private List<Order> orders;
+
     @Column(name = "equipname")
     private String name;
 
     @Column(name = "equipprice")
     private Float price;
 
-    @Column(name = "equipname")
+    @Column(name = "equipimg")
     private String image;
 
     @Column(name = "equipdescr")
@@ -72,5 +76,13 @@ public class Equipment {
 
     public void setCharacteristics(List<Characteristic> characteristics) {
         this.characteristics = characteristics;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

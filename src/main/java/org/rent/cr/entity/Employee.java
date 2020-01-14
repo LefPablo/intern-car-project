@@ -4,17 +4,26 @@ import org.rent.cr.entity.enums.EmplStatus;
 import org.rent.cr.entity.enums.Role;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table (name = "empls")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "emplid")
     private Integer id;
 
-    @ManyToOne (fetch=FetchType.LAZY, optional=false)
+    @OneToOne (optional=false, cascade=CascadeType.ALL)
     @JoinColumn (name="userid")
     private User user;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Reservation> reservations;
 
     @Column(name = "emplemail")
     private String email;
@@ -27,6 +36,12 @@ public class Employee {
 
     @Column(name = "emplstatus")
     private EmplStatus status;
+
+    @Column(name = "emplposition")
+    private String position;
+
+    @Column(name = "emplgotjob")
+    private LocalDate gotjob;
 
     public Employee() {
     }
@@ -75,14 +90,19 @@ public class Employee {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", status=" + status +
-                '}';
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public LocalDate getGotjob() {
+        return gotjob;
+    }
+
+    public void setGotjob(LocalDate gotjob) {
+        this.gotjob = gotjob;
     }
 }

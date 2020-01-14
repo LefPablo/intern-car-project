@@ -1,8 +1,9 @@
-package org.rent.cr.entity.attendent;
+package org.rent.cr.entity;
 
 import org.rent.cr.entity.Equipment;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "characts")
@@ -11,7 +12,7 @@ public class Characteristic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne (fetch = FetchType.LAZY, optional=false, cascade=CascadeType.ALL)
+    @ManyToOne (optional=false)
     @JoinColumn (name="equipid")
     private Equipment equipment;
 

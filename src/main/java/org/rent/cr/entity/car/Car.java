@@ -1,8 +1,11 @@
-package org.rent.cr.entity;
+package org.rent.cr.entity.car;
 
+import org.rent.cr.entity.Order;
+import org.rent.cr.entity.Reservation;
 import org.rent.cr.entity.enums.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
@@ -10,6 +13,36 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToMany(mappedBy = "car")
+    private List<Image> images;
+
+    @ManyToMany
+    @JoinTable (name="car_option",
+            joinColumns=@JoinColumn (name="carid"),
+            inverseJoinColumns=@JoinColumn(name="optionid"))
+    private List<Option> options;
+
+    @OneToMany(mappedBy = "car")
+    private List<Price> prices;
+
+    @ManyToOne
+    @JoinColumn(name = "brandid")
+    private Brand brand;
+
+    @ManyToOne
+    @JoinColumn(name = "modelid")
+    private Model model;
+
+    @ManyToOne
+    @JoinColumn(name = "colorid")
+    private Color color;
+
+    @OneToMany(mappedBy = "car")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "car")
+    private List<Reservation> reservations;
 
     @Column(name = "caryear")
     private Integer year;
@@ -29,14 +62,24 @@ public class Car {
     @Column(name = "cardescr")
     private String descr;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "carstatus")
     private CarStatus carStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "carbody")
     private Body body;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cartrans")
     private Transmission transmission;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "carfuel")
     private Fuel fuel;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "carclass")
     private CarClass carClass;
 
     public Car() {
@@ -132,5 +175,53 @@ public class Car {
 
     public void setCarClass(CarClass carClass) {
         this.carClass = carClass;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
+
+    public List<Price> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Price> prices) {
+        this.prices = prices;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

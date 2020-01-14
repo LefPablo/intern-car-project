@@ -8,10 +8,14 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userid")
     private Integer id;
 
-    @OneToMany (fetch=FetchType.LAZY, mappedBy="user")
-    private List<Employee> employee;
+    @OneToOne (mappedBy="user")
+    private Employee employee;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     @Column (name = "userage")
     private Integer age;
@@ -86,24 +90,11 @@ public class User {
         this.email = email;
     }
 
-    public List<Employee> getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(List<Employee> employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", age=" + age +
-                ", passport='" + passport + '\'' +
-                ", phone='" + phone + '\'' +
-                ", drivexp=" + drivexp +
-                ", drivlic='" + drivlic + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

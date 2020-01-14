@@ -9,6 +9,10 @@ public class Fine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "orderid")
+    private Order order;
+
     @Column(name = "finecost")
     private Float price;
 
@@ -36,5 +40,13 @@ public class Fine {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

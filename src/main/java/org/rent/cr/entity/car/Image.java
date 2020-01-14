@@ -1,4 +1,6 @@
-package org.rent.cr.entity.attendent;
+package org.rent.cr.entity.car;
+
+import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
 
@@ -14,6 +16,10 @@ public class Image {
 
     @Column(name = "imagepos")
     private Integer position;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "carid")
+    private Car car;
 
     public Image() {
     }
@@ -36,5 +42,13 @@ public class Image {
 
     public void setPosition(Integer position) {
         this.position = position;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 }
