@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface ColorService {
+import org.rent.cr.entity.car.Color;
+
+public interface ColorService extends EntityService<Color> {
 }

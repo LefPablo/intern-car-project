@@ -1,39 +1,21 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Image;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.car.ImageRepository;
+import org.rent.cr.service.ImageService;
+import org.rent.cr.service.impl.EntityServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class ImageServiceImpl extends EntityServiceImpl<Image, ImageRepository> implements ImageService {
+    private ImageRepository imageRepository;
 
-public class ImageServiceImpl implements EntityService<Image> {
-    @Override
-    public Image findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Image save(Image entity) {
-        return null;
-    }
-
-    @Override
-    public Image update(Image entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Image entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Image> findAll() {
-        return null;
+    @Autowired
+    public ImageServiceImpl(ImageRepository imageRepository) {
+        super(imageRepository, "Image");
+        this.imageRepository = imageRepository;
     }
 }

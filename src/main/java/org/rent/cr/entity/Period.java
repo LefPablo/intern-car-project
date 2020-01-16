@@ -4,6 +4,8 @@ import org.rent.cr.entity.car.Price;
 import org.rent.cr.entity.enums.PeriodType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -11,12 +13,15 @@ import java.util.List;
 public class Period {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "periodid")
     private Integer id;
 
     @OneToMany(mappedBy = "period")
     private List<Price> prices;
 
     @Column(name = "periodname")
+    @NotEmpty(message = "Name must be set")
+    @NotBlank(message = "Name must be not blank")
     private String name;
 
     private PeriodType periodType;

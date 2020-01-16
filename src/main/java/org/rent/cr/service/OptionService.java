@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface OptionService {
+import org.rent.cr.entity.car.Option;
+
+public interface OptionService extends EntityService<Option> {
 }

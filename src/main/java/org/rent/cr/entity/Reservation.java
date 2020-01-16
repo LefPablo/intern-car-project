@@ -3,6 +3,8 @@ package org.rent.cr.entity;
 import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reservid")
     private Integer id;
 
     @ManyToOne
@@ -21,9 +24,13 @@ public class Reservation {
     private Employee employee;
 
     @Column(name = "reservname")
+    @NotEmpty (message = "Name must be set")
+    @NotBlank (message = "Name must be not blank")
     private String name;
 
     @Column(name = "reservphone")
+    @NotEmpty (message = "Phone must be set")
+    @NotBlank (message = "Phone must be not blank")
     private String phone;
 
     @Column(name = "reservstart")
@@ -36,6 +43,7 @@ public class Reservation {
     private LocalDateTime updated;
 
     @Column(name = "reservproces")
+    @NotEmpty(message = "'Processed' field must be set (boolean)")
     private boolean processed;
 
     public Reservation() {
@@ -91,5 +99,21 @@ public class Reservation {
 
     public void setProcessed(boolean processed) {
         this.processed = processed;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

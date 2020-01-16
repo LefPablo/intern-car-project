@@ -1,39 +1,20 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Period;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.PeriodRepository;
+import org.rent.cr.service.PeriodService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class PeriodServiceImpl extends EntityServiceImpl<Period, PeriodRepository> implements PeriodService {
+    private PeriodRepository periodRepository;
 
-public class PeriodServiceImpl implements EntityService<Period> {
-    @Override
-    public Period findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Period save(Period entity) {
-        return null;
-    }
-
-    @Override
-    public Period update(Period entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Period entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Period> findAll() {
-        return null;
+    @Autowired
+    public PeriodServiceImpl(PeriodRepository periodRepository) {
+        super(periodRepository, "Period");
+        this.periodRepository = periodRepository;
     }
 }

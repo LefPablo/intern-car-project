@@ -1,39 +1,21 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Price;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.car.PriceRepository;
+import org.rent.cr.service.PriceService;
+import org.rent.cr.service.impl.EntityServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class PriceServiceImpl extends EntityServiceImpl<Price, PriceRepository> implements PriceService {
+    private PriceRepository priceRepository;
 
-public class PriceServiceImpl implements EntityService<Price> {
-    @Override
-    public Price findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Price save(Price entity) {
-        return null;
-    }
-
-    @Override
-    public Price update(Price entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Price entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Price> findAll() {
-        return null;
+    @Autowired
+    public PriceServiceImpl(PriceRepository priceRepository) {
+        super(priceRepository, "Price");
+        this.priceRepository = priceRepository;
     }
 }

@@ -9,6 +9,7 @@ public interface EntityService<T> {
     T save(T entity);
     T update(T entity);
     void delete(T entity);
+    void deleteById(int id) throws NoEntityException;
     void deleteAll();
     List<T> findAll();
 }

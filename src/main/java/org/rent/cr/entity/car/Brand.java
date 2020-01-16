@@ -45,4 +45,12 @@ public class Brand {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
 }

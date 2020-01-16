@@ -4,6 +4,7 @@ import org.rent.cr.entity.car.Car;
 import org.rent.cr.entity.enums.OrderStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orderid")
     private Integer id;
 
     @ManyToMany
@@ -36,9 +38,11 @@ public class Order {
     private User user;
 
     @Column(name = "orderprice")
+    @Min(value = 0, message = "Price must be positive")
     private Float price;
 
     @Column(name = "orderkilom")
+    @Min(value = 0, message = "Kilometers must be positive")
     private Integer kilom;
 
     @Column(name = "orderstart")
@@ -123,5 +127,29 @@ public class Order {
 
     public void setFines(List<Fine> fines) {
         this.fines = fines;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

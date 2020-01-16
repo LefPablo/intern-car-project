@@ -1,12 +1,14 @@
 package org.rent.cr.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "fines")
 public class Fine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "fineid")
     private Integer id;
 
     @ManyToOne
@@ -14,6 +16,7 @@ public class Fine {
     private Order order;
 
     @Column(name = "finecost")
+    @Min(value = 0, message = "Price must be positive")
     private Float price;
 
     @Column(name = "finecomm")

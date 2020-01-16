@@ -1,39 +1,20 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Order;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.OrderRepository;
+import org.rent.cr.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class OrderServiceImpl extends EntityServiceImpl<Order, OrderRepository> implements OrderService {
+    private OrderRepository orderRepository;
 
-public class OrderServiceImpl implements EntityService<Order> {
-    @Override
-    public Order findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Order save(Order entity) {
-        return null;
-    }
-
-    @Override
-    public Order update(Order entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Order entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return null;
+    @Autowired
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        super(orderRepository, "Order");
+        this.orderRepository = orderRepository;
     }
 }

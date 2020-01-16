@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface EquipmentService {
+import org.rent.cr.entity.Equipment;
+
+public interface EquipmentService extends EntityService<Equipment> {
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "priceid")
     private Integer id;
 
     @Column(name = "pricevalue")

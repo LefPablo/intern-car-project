@@ -1,6 +1,7 @@
 package org.rent.cr.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Entity
@@ -8,6 +9,7 @@ import java.util.List;
 public class Equipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "equipid")
     private Integer id;
 
     @OneToMany (mappedBy="equipment", fetch=FetchType.LAZY)
@@ -23,6 +25,7 @@ public class Equipment {
     private String name;
 
     @Column(name = "equipprice")
+    @Min(value = 0, message = "Price must be positive")
     private Float price;
 
     @Column(name = "equipimg")

@@ -1,39 +1,20 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Fine;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.FineRepository;
+import org.rent.cr.service.FineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class FineServiceImpl extends EntityServiceImpl<Fine, FineRepository> implements FineService {
+    private FineRepository fineRepository;
 
-public class FineServiceImpl implements EntityService<Fine> {
-    @Override
-    public Fine findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Fine save(Fine entity) {
-        return null;
-    }
-
-    @Override
-    public Fine update(Fine entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Fine entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Fine> findAll() {
-        return null;
+    @Autowired
+    public FineServiceImpl(FineRepository fineRepository) {
+        super(fineRepository, "Fine");
+        this.fineRepository = fineRepository;
     }
 }

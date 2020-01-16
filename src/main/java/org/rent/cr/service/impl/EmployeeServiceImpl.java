@@ -1,39 +1,20 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Employee;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.EmployeeRepository;
+import org.rent.cr.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class EmployeeServiceImpl extends EntityServiceImpl<Employee, EmployeeRepository> implements EmployeeService {
+    private EmployeeRepository employeeRepository;
 
-public class EmployeeServiceImpl implements EntityService<Employee> {
-    @Override
-    public Employee findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Employee save(Employee entity) {
-        return null;
-    }
-
-    @Override
-    public Employee update(Employee entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Employee entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Employee> findAll() {
-        return null;
+    @Autowired
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        super(employeeRepository, "Employee");
+        this.employeeRepository = employeeRepository;
     }
 }

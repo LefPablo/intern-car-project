@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface ModelService {
+import org.rent.cr.entity.car.Model;
+
+public interface ModelService extends EntityService<Model> {
 }

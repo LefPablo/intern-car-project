@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "imageid")
     private Integer id;
 
     @Column(name = "imagepath")

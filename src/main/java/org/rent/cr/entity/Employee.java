@@ -1,9 +1,12 @@
 package org.rent.cr.entity;
 
 import org.rent.cr.entity.enums.EmplStatus;
-import org.rent.cr.entity.enums.Role;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,19 +28,25 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
+    @OneToMany(mappedBy = "employee")
+    private List<EmplRole> emplRoles;
+
     @Column(name = "emplemail")
+    @Email(message = "")
     private String email;
 
     @Column(name = "emplpassword")
+    @NotEmpty(message = "Password must be set")
+    @Size(min = 6, message = "Password size must be 6 or bigger")
     private String password;
 
-    @Column(name = "emplrole")
-    private Role role;
-
     @Column(name = "emplstatus")
+    @NotEmpty(message = "Status must be set")
     private EmplStatus status;
 
     @Column(name = "emplposition")
+    @NotEmpty(message = "Employee must have a position")
+    @NotBlank(message = "Employee position must be not blank")
     private String position;
 
     @Column(name = "emplgotjob")
@@ -64,14 +73,6 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public EmplStatus getStatus() {
@@ -104,5 +105,29 @@ public class Employee {
 
     public void setGotjob(LocalDate gotjob) {
         this.gotjob = gotjob;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<EmplRole> getEmplRoles() {
+        return emplRoles;
+    }
+
+    public void setEmplRoles(List<EmplRole> emplRoles) {
+        this.emplRoles = emplRoles;
     }
 }

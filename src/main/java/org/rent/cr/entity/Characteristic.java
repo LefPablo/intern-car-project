@@ -10,6 +10,7 @@ import java.util.List;
 public class Characteristic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "charactid")
     private Integer id;
 
     @ManyToOne (optional=false)

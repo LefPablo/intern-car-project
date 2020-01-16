@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface FineService {
+import org.rent.cr.entity.Fine;
+
+public interface FineService extends EntityService<Fine> {
 }

@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface PeriodService {
+import org.rent.cr.entity.Period;
+
+public interface PeriodService extends EntityService<Period> {
 }

@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BrandRepositoryTest {
@@ -19,10 +21,13 @@ public class BrandRepositoryTest {
     @Test
     @Transactional
     public void whenFindByName_thenReturnEmployee() throws NoEntityException {
-        Brand brand = brandServiceImpl.findById(1);
+        Brand entity = new Brand();
+        entity.setName("Qwert");
+        Brand brand = brandServiceImpl.save(entity);
+        List<Brand> brands = brandServiceImpl.findAll();
 
         System.out.println(brand.getName());
-        System.out.println(brand.getModels().size());
+        System.out.println(brands.size());
 
 //        Assert.assertEquals("Toyota" ,found.getName());
     }

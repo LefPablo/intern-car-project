@@ -10,6 +10,7 @@ import java.util.List;
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "colorid")
     private Integer id;
 
     @Column(name = "colorname")

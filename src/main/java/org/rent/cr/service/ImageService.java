@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface ImageService {
+import org.rent.cr.entity.car.Image;
+
+public interface ImageService extends EntityService<Image> {
 }

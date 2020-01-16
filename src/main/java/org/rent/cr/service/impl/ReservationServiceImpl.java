@@ -1,39 +1,20 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Reservation;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.ReservationRepository;
+import org.rent.cr.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class ReservationServiceImpl extends EntityServiceImpl<Reservation, ReservationRepository>  implements ReservationService {
+    private ReservationRepository reservationRepository;
 
-public class ReservationServiceImpl implements EntityService<Reservation> {
-    @Override
-    public Reservation findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Reservation save(Reservation entity) {
-        return null;
-    }
-
-    @Override
-    public Reservation update(Reservation entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Reservation entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Reservation> findAll() {
-        return null;
+    @Autowired
+    public ReservationServiceImpl(ReservationRepository reservationRepository) {
+        super(reservationRepository, "Reservation");
+        this.reservationRepository = reservationRepository;
     }
 }

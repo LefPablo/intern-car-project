@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface CharacteristicService {
+import org.rent.cr.entity.Characteristic;
+
+public interface CharacteristicService extends EntityService<Characteristic> {
 }

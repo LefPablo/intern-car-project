@@ -1,39 +1,21 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Car;
-import org.rent.cr.exception.NoEntityException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.repo.car.CarRepository;
+import org.rent.cr.service.CarService;
+import org.rent.cr.service.impl.EntityServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@Transactional
+public class CarServiceImpl extends EntityServiceImpl<Car, CarRepository> implements CarService {
+    private CarRepository carRepository;
 
-public class CarServiceImpl implements EntityService<Car> {
-    @Override
-    public Car findById(int id) throws NoEntityException {
-        return null;
-    }
-
-    @Override
-    public Car save(Car entity) {
-        return null;
-    }
-
-    @Override
-    public Car update(Car entity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Car entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Car> findAll() {
-        return null;
+    @Autowired
+    public CarServiceImpl(CarRepository carRepository) {
+        super(carRepository, "Car");
+        this.carRepository = carRepository;
     }
 }

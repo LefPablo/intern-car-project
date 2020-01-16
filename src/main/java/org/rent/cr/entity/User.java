@@ -1,6 +1,10 @@
 package org.rent.cr.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -18,21 +22,27 @@ public class User {
     private List<Order> orders;
 
     @Column (name = "userage")
+    @Min(value = 18, message = "User must be 18 or older")
     private Integer age;
 
     @Column (name = "userpassport")
+    @NotBlank(message = "Passport must be not blank")
     private String passport;
 
     @Column (name = "userphone")
+    @NotEmpty(message = "User phone must be set")
     private String phone;
 
     @Column (name = "userdrivexp")
+    @Min(value = 1, message = "Drive experience must be 1 and over")
     private Integer drivexp;
 
     @Column (name = "userdrivlic")
+    @NotBlank(message = "Driver license must be not blank")
     private String drivlic;
 
     @Column (name = "useremail")
+    @Email(message = "Email is not correct")
     private String email;
 
     public User() {
@@ -96,5 +106,13 @@ public class User {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

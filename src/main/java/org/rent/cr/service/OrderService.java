@@ -1,4 +1,6 @@
 package org.rent.cr.service;
 
-public interface OrderService {
+import org.rent.cr.entity.Order;
+
+public interface OrderService extends EntityService<Order> {
 }

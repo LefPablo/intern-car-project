@@ -10,6 +10,7 @@ import java.util.List;
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "optionid")
     private Integer id;
 
     @Column(name = "optionname")
