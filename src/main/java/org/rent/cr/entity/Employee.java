@@ -32,7 +32,7 @@ public class Employee {
     private List<EmplRole> emplRoles;
 
     @Column(name = "emplemail")
-    @Email(message = "")
+    @Email(message = "Email is not correct")
     private String email;
 
     @Column(name = "emplpassword")
@@ -46,7 +46,6 @@ public class Employee {
 
     @Column(name = "emplposition")
     @NotEmpty(message = "Employee must have a position")
-    @NotBlank(message = "Employee position must be not blank")
     private String position;
 
     @Column(name = "emplgotjob")

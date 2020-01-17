@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "reservs")
@@ -33,6 +34,19 @@ public class Reservation {
     @NotBlank (message = "Phone must be not blank")
     private String phone;
 
+    @ManyToMany
+    @JoinTable(name = "reserv_equip",
+            joinColumns = @JoinColumn(name = "reservid"),
+            inverseJoinColumns = @JoinColumn(name = "equipid"))
+    private List<Equipment> equipmentList;
+
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private User user;
+
+    @Column(name = "reservemail")
+    private String email;
+
     @Column(name = "reservstart")
     private LocalDateTime start;
 
@@ -43,8 +57,7 @@ public class Reservation {
     private LocalDateTime updated;
 
     @Column(name = "reservproces")
-    @NotEmpty(message = "'Processed' field must be set (boolean)")
-    private boolean processed;
+    private Boolean processed;
 
     public Reservation() {
     }
@@ -115,5 +128,47 @@ public class Reservation {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Equipment> getEquipmentList() {
+        return equipmentList;
+    }
+
+    public void setEquipmentList(List<Equipment> equipmentList) {
+        this.equipmentList = equipmentList;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", car=" + car +
+                ", employee=" + employee +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", equipmentList=" + equipmentList +
+                ", user=" + user +
+                ", email='" + email + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", updated=" + updated +
+                ", processed=" + processed +
+                '}';
     }
 }

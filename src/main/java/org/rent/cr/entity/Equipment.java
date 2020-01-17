@@ -21,6 +21,12 @@ public class Equipment {
             inverseJoinColumns=@JoinColumn(name="orderid"))
     private List<Order> orders;
 
+    @ManyToMany
+    @JoinTable(name = "reserv_equip",
+            joinColumns = @JoinColumn(name = "equipid"),
+            inverseJoinColumns = @JoinColumn(name = "reservid"))
+    private List<Reservation> reservations;
+
     @Column(name = "equipname")
     private String name;
 

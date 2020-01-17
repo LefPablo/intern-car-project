@@ -1,5 +1,9 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -15,18 +19,25 @@ public class User {
     @Column(name = "userid")
     private Integer id;
 
-    @OneToOne (mappedBy="user")
+    @OneToOne (mappedBy="user", fetch = FetchType.LAZY)
     private Employee employee;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Reservation> reservations;
+
+    @Column (name = "username")
+    @NotEmpty(message = "Name must be set")
+    private String name;
 
     @Column (name = "userage")
     @Min(value = 18, message = "User must be 18 or older")
     private Integer age;
 
     @Column (name = "userpassport")
-    @NotBlank(message = "Passport must be not blank")
     private String passport;
 
     @Column (name = "userphone")
@@ -38,7 +49,6 @@ public class User {
     private Integer drivexp;
 
     @Column (name = "userdrivlic")
-    @NotBlank(message = "Driver license must be not blank")
     private String drivlic;
 
     @Column (name = "useremail")
@@ -50,6 +60,10 @@ public class User {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getAge() {
@@ -114,5 +128,38 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", employee=" + employee +
+                ", orders=" + orders +
+                ", reservations=" + reservations +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", passport='" + passport + '\'' +
+                ", phone='" + phone + '\'' +
+                ", drivexp=" + drivexp +
+                ", drivlic='" + drivlic + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

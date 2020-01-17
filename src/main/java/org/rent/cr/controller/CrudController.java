@@ -2,59 +2,60 @@ package org.rent.cr.controller;
 
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.EntityService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class EntityController<E ,T extends EntityService> {
+public abstract class CrudController<E, T extends EntityService> {
     private T service;
     private String entityName;
 
-    public EntityController(T service, String entityName) {
+    public CrudController(T service, String entityName) {
         this.service = service;
         this.entityName = entityName;
     }
 
     @GetMapping
-    @RequestMapping("/findAll")
     public List<E> findAll() {
         return service.findAll();
     }
 
-    @GetMapping
-    @RequestMapping("/findById")
-    public E findById(@RequestParam("id") int id) throws NoEntityException {
+    @GetMapping("page/{p}")
+    public Page<E> getPage(@PathVariable("p") int p, @RequestParam(name = "size", defaultValue = "30") int size) {
+        return service.getPage(p, size);
+    }
+
+    @GetMapping("{id}")
+    public E findById(@PathVariable("id") int id) throws NoEntityException {
         E entity = (E) service.findById(id);
         return entity;
     }
 
     @PostMapping
-    @RequestMapping("/save")
     public E save(@RequestBody E entity) {
         entity = (E) service.save(entity);
         return entity;
     }
 
-    @PutMapping
-    @RequestMapping("/update")
-    public E update(@RequestBody E entity) {
-        entity = (E) service.update(entity);
+    @PutMapping("{id}")
+    public E update(@PathVariable("id") E entityFromDb, @RequestBody E entity) {
+        service.copyNonNullProperties(entity, entityFromDb);
+        entity = (E) service.update(entityFromDb);
         return entity;
     }
 
-    @DeleteMapping
-    @RequestMapping("/deleteAll")
+    @DeleteMapping("deleteAll")
     public void deleteAll() {
         service.deleteAll();
     }
 
-    @DeleteMapping
-    @RequestMapping("/deleteById")
-    public Map deleteById(@RequestParam("id") int id) throws NoEntityException {
+    @DeleteMapping("{id}")
+    public Map deleteById(@PathVariable("id") int id) throws NoEntityException {
         service.deleteById(id);
-        Map<String,String> responseMap = new HashMap<>();
+        Map<String, String> responseMap = new HashMap<>();
         responseMap.put("message", entityName + " was deleted");
         return responseMap;
     }

@@ -1,6 +1,7 @@
 package org.rent.cr.service;
 
 import org.rent.cr.exception.NoEntityException;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface EntityService<T> {
     void deleteById(int id) throws NoEntityException;
     void deleteAll();
     List<T> findAll();
+    Page<T> getPage(int p, int s);
+
+    void copyNonNullProperties(Object source, Object destination);
 }

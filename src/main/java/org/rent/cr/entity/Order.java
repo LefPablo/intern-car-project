@@ -1,5 +1,7 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.rent.cr.entity.car.Car;
 import org.rent.cr.entity.enums.OrderStatus;
 
@@ -35,6 +37,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "userid")
+    @JsonBackReference
     private User user;
 
     @Column(name = "orderprice")
