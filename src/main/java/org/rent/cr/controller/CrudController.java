@@ -3,6 +3,7 @@ package org.rent.cr.controller;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.EntityService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -25,7 +26,8 @@ public abstract class CrudController<E, T extends EntityService> {
 
     @GetMapping("page/{p}")
     public Page<E> getPage(@PathVariable("p") int p, @RequestParam(name = "size", defaultValue = "30") int size) {
-        return service.getPage(p, size);
+        Page<E> page = service.getPage(p, size);
+        return page;
     }
 
     @GetMapping("{id}")

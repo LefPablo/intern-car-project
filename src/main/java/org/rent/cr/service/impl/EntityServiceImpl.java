@@ -59,8 +59,9 @@ public abstract class EntityServiceImpl<T,R extends JpaRepository<T,Integer>> im
 
     @Override
     public Page<T> getPage(int p, int size) {
-        Pageable page = PageRequest.of(p,size);
-        return repository.findAll(page);
+        Pageable pageable = PageRequest.of(p,size);
+        Page<T> page = repository.findAll(pageable);
+        return page;
     }
 
     @Override

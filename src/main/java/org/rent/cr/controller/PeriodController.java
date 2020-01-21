@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("brand")
+@RequestMapping("period")
 public class PeriodController extends CrudController<Period, PeriodService> {
     private PeriodService periodService;
 
