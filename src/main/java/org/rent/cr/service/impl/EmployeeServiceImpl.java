@@ -17,4 +17,9 @@ public class EmployeeServiceImpl extends EntityServiceImpl<Employee, EmployeeRep
         super(employeeRepository, "Employee");
         this.employeeRepository = employeeRepository;
     }
+
+    @Override
+    public Employee findByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
 }
