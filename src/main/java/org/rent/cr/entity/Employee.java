@@ -30,7 +30,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     private List<EmplRole> emplRoles;
 
     @Column(name = "emplemail")

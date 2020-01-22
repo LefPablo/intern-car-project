@@ -4,6 +4,7 @@ import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.EntityService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

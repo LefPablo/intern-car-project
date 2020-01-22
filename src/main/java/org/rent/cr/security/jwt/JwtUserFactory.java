@@ -5,8 +5,8 @@ import org.rent.cr.entity.Employee;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class JwtUserFactory {
     public JwtUserFactory() {
@@ -24,7 +24,12 @@ public final class JwtUserFactory {
     }
 
     private static List<GrantedAuthority> mapToGrantedAuthority(List<EmplRole> userRoles) {
-        return userRoles.stream().map(role ->
-                new SimpleGrantedAuthority(role.getRole().name())).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (EmplRole role : userRoles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
+        }
+        return authorities;
+        //userRoles.stream().map(role ->
+        //                new SimpleGrantedAuthority(role.getRole().name())).collect(Collectors.toList());
     }
 }
