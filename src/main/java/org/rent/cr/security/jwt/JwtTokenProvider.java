@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import org.rent.cr.entity.EmplRole;
 import org.rent.cr.exception.JwtAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,7 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private Long validityInMilliseconds;
 
+    @Qualifier("jwtUserDetailsSevice")
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -60,8 +62,8 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
+            return bearerToken.substring(7);
         }
         return null;
     }

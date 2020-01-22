@@ -1,5 +1,6 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.rent.cr.entity.enums.EmplStatus;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Employee {
     @Column(name = "emplid")
     private Integer id;
 
+    @JsonIgnore
     @OneToOne (optional=false, cascade=CascadeType.ALL)
     @JoinColumn (name="userid")
     private User user;

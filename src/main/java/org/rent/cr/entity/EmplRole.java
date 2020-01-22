@@ -1,5 +1,6 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.rent.cr.entity.enums.Role;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class EmplRole {
     @Column(name = "roleid")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "emplid")
     private Employee employee;
