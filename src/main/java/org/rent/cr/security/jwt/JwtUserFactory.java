@@ -29,7 +29,5 @@ public final class JwtUserFactory {
             authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
         }
         return authorities;
-        //userRoles.stream().map(role ->
-        //                new SimpleGrantedAuthority(role.getRole().name())).collect(Collectors.toList());
     }
 }

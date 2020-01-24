@@ -1,4 +1,4 @@
-package org.rent.cr.security.jwt;
+package org.rent.cr.security;
 
 import org.rent.cr.entity.Employee;
 import org.rent.cr.security.jwt.JwtUser;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JwtUserDetailsSevice implements UserDetailsService {
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public JwtUserDetailsSevice(EmployeeService employeeService) {
