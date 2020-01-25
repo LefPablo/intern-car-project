@@ -1,9 +1,11 @@
 package org.rent.cr.controller;
 
 import org.rent.cr.entity.User;
+import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

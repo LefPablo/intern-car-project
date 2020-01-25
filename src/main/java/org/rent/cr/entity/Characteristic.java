@@ -1,9 +1,6 @@
 package org.rent.cr.entity;
 
-import org.rent.cr.entity.Equipment;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "characts")

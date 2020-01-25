@@ -1,5 +1,7 @@
 package org.rent.cr.entity.car;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
@@ -16,6 +18,7 @@ public class Option {
     @Column(name = "optionname")
     private String name;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable (name="car_option",
             joinColumns=@JoinColumn (name="optionid"),

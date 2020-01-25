@@ -1,5 +1,6 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.rent.cr.entity.car.Price;
 import org.rent.cr.entity.enums.PeriodType;
 
@@ -16,6 +17,7 @@ public class Period {
     @Column(name = "periodid")
     private Integer id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "period")
     private List<Price> prices;
 
@@ -24,6 +26,8 @@ public class Period {
     @NotBlank(message = "Name must be not blank")
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "periodtype")
     private PeriodType periodType;
 
     public Period() {

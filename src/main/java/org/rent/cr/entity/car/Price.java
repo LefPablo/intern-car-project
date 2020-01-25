@@ -1,5 +1,7 @@
 package org.rent.cr.entity.car;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.rent.cr.entity.Period;
 import org.rent.cr.entity.car.Car;
 
@@ -20,6 +22,7 @@ public class Price {
     @JoinColumn(name = "periodid")
     private Period period;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "carid")
     private Car car;

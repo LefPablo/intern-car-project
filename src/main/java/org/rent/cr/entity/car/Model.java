@@ -1,20 +1,29 @@
 package org.rent.cr.entity.car;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "models")
 public class Model {
+    @JsonView(View.Public.Private.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "modelid")
     private Integer id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "model")
     private List<Car> cars;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonView(View.Public.class)
+    @ManyToOne
     @JoinColumn(name = "brandid")
     private Brand brand;
 

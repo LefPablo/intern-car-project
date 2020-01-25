@@ -1,5 +1,7 @@
 package org.rent.cr.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.EntityService;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ public abstract class CrudController<E, T extends EntityService> {
         this.entityName = entityName;
     }
 
+    @JsonView(View.Public.class)
     @GetMapping
     public List<E> findAll() {
         return service.findAll();

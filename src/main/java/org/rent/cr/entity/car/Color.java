@@ -1,6 +1,6 @@
 package org.rent.cr.entity.car;
 
-import org.rent.cr.entity.car.Car;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +16,7 @@ public class Color {
     @Column(name = "colorname")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "color")
     private List<Car> cars;
 

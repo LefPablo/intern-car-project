@@ -3,6 +3,7 @@ package org.rent.cr.security.jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -34,9 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().authenticated()
+//                .antMatchers(LOGIN_ENDPOINT).permitAll()
+//                .antMatchers(HttpMethod.DELETE,ADMIN_ENDPOINT).hasRole("ADMIN")
+                .anyRequest().anonymous()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

@@ -1,10 +1,18 @@
 package org.rent.cr.entity.car;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
 import org.rent.cr.entity.enums.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Entity
@@ -15,18 +23,23 @@ public class Car {
     @Column(name = "carid")
     private Integer id;
 
+    //Join
+    @JsonView(View.Public.Private.class)
     @OneToMany(mappedBy = "car")
     private List<Image> images;
 
+    @JsonView(View.Public.Private.class)
     @ManyToMany
     @JoinTable (name="car_option",
             joinColumns=@JoinColumn (name="carid"),
             inverseJoinColumns=@JoinColumn(name="optionid"))
     private List<Option> options;
 
+    @JsonView(View.Public.Private.class)
     @OneToMany(mappedBy = "car")
     private List<Price> prices;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "brandid")
     private Brand brand;
@@ -39,21 +52,29 @@ public class Car {
     @JoinColumn(name = "colorid")
     private Color color;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List<Order> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List<Reservation> reservations;
 
+
+    //Columns
+    @Positive
     @Column(name = "caryear")
     private Integer year;
 
+    @PositiveOrZero
     @Column(name = "cardoors")
     private Integer doors;
 
+    @PositiveOrZero
     @Column(name = "cartrunk")
     private Integer trunk;
 
+    @PositiveOrZero
     @Column(name = "carpassengers")
     private Integer passengers;
 
@@ -63,6 +84,7 @@ public class Car {
     @Column(name = "cardescr")
     private String descr;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "carstatus")
     private CarStatus carStatus;
