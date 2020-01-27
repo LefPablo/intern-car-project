@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("fine")
+@RequestMapping("fines")
 public class FineController extends CrudController<Fine, org.rent.cr.service.FineService> {
     FineService FineService;
 

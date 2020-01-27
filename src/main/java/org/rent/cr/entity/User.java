@@ -1,5 +1,6 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -16,13 +17,16 @@ public class User {
     @Column(name = "userid")
     private Integer id;
 
+    @JsonIgnore
     @OneToOne (mappedBy="user", fetch = FetchType.LAZY)
     private Employee employee;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Order> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
@@ -33,6 +37,7 @@ public class User {
     @Column (name = "userage")
     @Min(value = 18, message = "User must be 18 or older")
     private Integer age;
+
 
     @Column (name = "userpassport")
     private String passport;
@@ -141,22 +146,5 @@ public class User {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", employee=" + employee +
-                ", orders=" + orders +
-                ", reservations=" + reservations +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", passport='" + passport + '\'' +
-                ", phone='" + phone + '\'' +
-                ", drivexp=" + drivexp +
-                ", drivlic='" + drivlic + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

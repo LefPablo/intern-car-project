@@ -1,5 +1,7 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
@@ -11,6 +13,7 @@ public class Fine {
     @Column(name = "fineid")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "orderid")
     private Order order;

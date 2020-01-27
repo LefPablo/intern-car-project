@@ -1,6 +1,8 @@
 package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.car.Price;
 import org.rent.cr.entity.enums.PeriodType;
 
@@ -17,6 +19,7 @@ public class Period {
     @Column(name = "periodid")
     private Integer id;
 
+    @JsonView(View.PrivatePeriod.class)
     @JsonIgnore
     @OneToMany(mappedBy = "period")
     private List<Price> prices;

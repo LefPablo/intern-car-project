@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("option")
+@RequestMapping("options")
 public class OptionController extends CrudController<Option, OptionService> {
     private OptionService optionService;
 
@@ -16,4 +16,5 @@ public class OptionController extends CrudController<Option, OptionService> {
         super(service, "Option");
         optionService = service;
     }
+
 }

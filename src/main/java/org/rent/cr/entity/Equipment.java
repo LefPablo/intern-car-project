@@ -1,5 +1,10 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
+import org.rent.cr.entity.enums.EquipStatus;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.util.List;
@@ -12,15 +17,18 @@ public class Equipment {
     @Column(name = "equipid")
     private Integer id;
 
+    @JsonView(View.PrivateEquip.class)
     @OneToMany (mappedBy="equipment", fetch=FetchType.LAZY)
     private List<Characteristic> characteristics;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable (name="order_equip",
             joinColumns=@JoinColumn (name="equipid"),
             inverseJoinColumns=@JoinColumn(name="orderid"))
     private List<Order> orders;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "reserv_equip",
             joinColumns = @JoinColumn(name = "equipid"),
@@ -39,6 +47,10 @@ public class Equipment {
 
     @Column(name = "equipdescr")
     private String descr;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "equipstatus")
+    private EquipStatus status;
 
     public Equipment() {
     }
@@ -93,5 +105,25 @@ public class Equipment {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public EquipStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EquipStatus status) {
+        this.status = status;
     }
 }

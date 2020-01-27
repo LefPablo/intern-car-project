@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("price")
+@RequestMapping("prices")
 public class PriceController extends CrudController<Price, PriceService> {
     PriceService priceService;
 

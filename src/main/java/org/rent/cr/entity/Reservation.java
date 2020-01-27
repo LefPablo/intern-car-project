@@ -1,5 +1,7 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
@@ -16,13 +18,29 @@ public class Reservation {
     @Column(name = "reservid")
     private Integer id;
 
+    @JsonView(View.PrivateReserv.class)
     @ManyToOne
     @JoinColumn(name = "carid")
     private Car car;
 
+    @JsonView(View.PrivateReserv.class)
     @ManyToOne
     @JoinColumn(name = "emplid")
     private Employee employee;
+
+    @JsonView(View.PrivateReserv.class)
+    @ManyToMany
+    @JoinTable(name = "reserv_equip",
+            joinColumns = @JoinColumn(name = "reservid"),
+            inverseJoinColumns = @JoinColumn(name = "equipid"))
+    private List<Equipment> equipmentList;
+
+    @JsonView(View.PrivateReserv.class)
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private User user;
+
+
 
     @Column(name = "reservname")
     @NotEmpty (message = "Name must be set")
@@ -33,16 +51,6 @@ public class Reservation {
     @NotEmpty (message = "Phone must be set")
     @NotBlank (message = "Phone must be not blank")
     private String phone;
-
-    @ManyToMany
-    @JoinTable(name = "reserv_equip",
-            joinColumns = @JoinColumn(name = "reservid"),
-            inverseJoinColumns = @JoinColumn(name = "equipid"))
-    private List<Equipment> equipmentList;
-
-    @ManyToOne
-    @JoinColumn(name = "userid")
-    private User user;
 
     @Column(name = "reservemail")
     private String email;

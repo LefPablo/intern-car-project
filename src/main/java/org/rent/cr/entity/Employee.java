@@ -1,6 +1,8 @@
 package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EmplStatus;
 
 import javax.persistence.*;
@@ -19,17 +21,19 @@ public class Employee {
     @Column(name = "emplid")
     private Integer id;
 
-    @JsonIgnore
     @OneToOne (optional=false, cascade=CascadeType.ALL)
     @JoinColumn (name="userid")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Order> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
+    @JsonView(View.PrivateEmpl.class)
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     private List<EmplRole> emplRoles;
 
@@ -130,5 +134,9 @@ public class Employee {
 
     public void setEmplRoles(List<EmplRole> emplRoles) {
         this.emplRoles = emplRoles;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -34,6 +34,7 @@ public abstract class CrudController<E, T extends EntityService> {
         return page;
     }
 
+    @JsonView(View.Private.class)
     @GetMapping("{id}")
     public E findById(@PathVariable("id") int id) throws NoEntityException {
         E entity = (E) service.findById(id);

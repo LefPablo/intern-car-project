@@ -1,5 +1,6 @@
 package org.rent.cr.entity.car;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Image {
     @Column(name = "imagepos")
     private Integer position;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "carid")
     private Car car;

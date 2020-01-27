@@ -9,7 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("users")
 public class UserController extends CrudController<User, UserService> {
     private UserService userService;
 
@@ -24,4 +24,6 @@ public class UserController extends CrudController<User, UserService> {
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No message available")
     public void deleteAll() {
     }
+
+
 }

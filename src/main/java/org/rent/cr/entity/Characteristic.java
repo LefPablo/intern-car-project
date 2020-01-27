@@ -1,5 +1,7 @@
 package org.rent.cr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Characteristic {
     @Column(name = "charactid")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne (optional=false)
     @JoinColumn (name="equipid")
     private Equipment equipment;

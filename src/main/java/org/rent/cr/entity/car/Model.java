@@ -1,9 +1,6 @@
 package org.rent.cr.entity.car;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import org.rent.cr.dto.view.View;
 
 import javax.persistence.*;
@@ -11,8 +8,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "models")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Model {
-    @JsonView(View.Public.Private.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "modelid")
@@ -22,7 +21,7 @@ public class Model {
     @OneToMany(mappedBy = "model")
     private List<Car> cars;
 
-    @JsonView(View.Public.class)
+    @JsonView(View.PrivateModel.class)
     @ManyToOne
     @JoinColumn(name = "brandid")
     private Brand brand;

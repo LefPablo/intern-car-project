@@ -1,5 +1,6 @@
 package org.rent.cr.service.impl;
 
+import org.rent.cr.entity.Equipment;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
 import org.rent.cr.entity.User;
@@ -10,6 +11,9 @@ import org.rent.cr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -43,7 +47,14 @@ public class ReservationServiceImpl extends EntityServiceImpl<Reservation, Reser
         order.setEnd(reservation.getEnd());
 
         order.setEmployee(reservation.getEmployee()); //TODO get employee from session
-        order.setEquipmentList(reservation.getEquipmentList());
+
+        //Made this loop because Hibernate throw exception "Found shared references to a collection: org.rent.cr.entity.Order.equipmentList; nested exception is org.hibernate.HibernateException: Found shared references to a collection: org.rent.cr.entity.Order.equipmentList"
+        List<Equipment> equipment = new ArrayList<>();
+        for (Equipment equip : reservation.getEquipmentList()) {
+            equipment.add(equip);
+        }
+
+        order.setEquipmentList(equipment);
         orderService.save(order);
     }
 }

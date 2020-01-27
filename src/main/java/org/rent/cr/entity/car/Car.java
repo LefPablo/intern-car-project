@@ -1,8 +1,6 @@
 package org.rent.cr.entity.car;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
@@ -17,6 +15,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "cars")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,22 +25,21 @@ public class Car {
     private Integer id;
 
     //Join
-    @JsonView(View.Public.Private.class)
+    @JsonView(View.PrivateCar.class)
     @OneToMany(mappedBy = "car")
     private List<Image> images;
 
-    @JsonView(View.Public.Private.class)
+    @JsonView(View.PrivateCar.class)
     @ManyToMany
     @JoinTable (name="car_option",
             joinColumns=@JoinColumn (name="carid"),
             inverseJoinColumns=@JoinColumn(name="optionid"))
     private List<Option> options;
 
-    @JsonView(View.Public.Private.class)
+    @JsonView(View.PrivateCar.class)
     @OneToMany(mappedBy = "car")
     private List<Price> prices;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "brandid")
     private Brand brand;

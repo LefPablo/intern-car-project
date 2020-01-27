@@ -2,6 +2,8 @@ package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.car.Car;
 import org.rent.cr.entity.enums.OrderStatus;
 
@@ -18,23 +20,28 @@ public class Order {
     @Column(name = "orderid")
     private Integer id;
 
+    @JsonView(View.PrivateOrder.class)
     @ManyToMany
     @JoinTable (name="order_equip",
             joinColumns=@JoinColumn (name="orderid"),
             inverseJoinColumns=@JoinColumn(name="equipid"))
     private List<Equipment> equipmentList;
 
+    @JsonView(View.PrivateOrder.class)
     @OneToMany(mappedBy = "order")
     private List<Fine> fines;
 
+    @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "carid")
     private Car car;
 
+    @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "emplid")
     private Employee employee;
 
+    @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "userid")
     @JsonBackReference
