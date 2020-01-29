@@ -41,6 +41,7 @@ public class Employee {
     @Email(message = "Email is not correct")
     private String email;
 
+    @JsonIgnore
     @Column(name = "emplpassword")
     @NotEmpty(message = "Password must be set")
     @Size(min = 6, message = "Password size must be 6 or bigger")
