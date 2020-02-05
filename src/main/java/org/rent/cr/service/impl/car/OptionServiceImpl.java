@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Option;
-import org.rent.cr.repo.car.OptionRepository;
+import org.rent.cr.dao.repo.car.OptionRepository;
 import org.rent.cr.service.OptionService;
 import org.rent.cr.service.impl.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

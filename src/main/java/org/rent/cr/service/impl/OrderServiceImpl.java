@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Order;
-import org.rent.cr.repo.OrderRepository;
+import org.rent.cr.dao.repo.OrderRepository;
 import org.rent.cr.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

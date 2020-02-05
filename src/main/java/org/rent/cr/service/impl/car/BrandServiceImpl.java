@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Brand;
-import org.rent.cr.repo.car.BrandRepository;
+import org.rent.cr.dao.repo.car.BrandRepository;
 import org.rent.cr.service.BrandService;
 import org.rent.cr.service.impl.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

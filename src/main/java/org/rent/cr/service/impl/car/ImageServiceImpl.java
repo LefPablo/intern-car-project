@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Image;
-import org.rent.cr.repo.car.ImageRepository;
+import org.rent.cr.dao.repo.car.ImageRepository;
 import org.rent.cr.service.ImageService;
 import org.rent.cr.service.impl.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

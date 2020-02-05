@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl.car;
 
 import org.rent.cr.entity.car.Car;
-import org.rent.cr.repo.car.CarRepository;
+import org.rent.cr.dao.repo.car.CarRepository;
 import org.rent.cr.service.CarService;
 import org.rent.cr.service.impl.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

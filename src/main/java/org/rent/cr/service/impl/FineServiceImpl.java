@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Fine;
-import org.rent.cr.repo.FineRepository;
+import org.rent.cr.dao.repo.FineRepository;
 import org.rent.cr.service.FineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

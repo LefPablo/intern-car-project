@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Employee;
-import org.rent.cr.repo.EmployeeRepository;
+import org.rent.cr.dao.repo.EmployeeRepository;
 import org.rent.cr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

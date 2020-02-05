@@ -1,7 +1,7 @@
 package org.rent.cr.service.impl;
 
 import org.rent.cr.entity.Characteristic;
-import org.rent.cr.repo.CharacteristicRepository;
+import org.rent.cr.dao.repo.CharacteristicRepository;
 import org.rent.cr.service.CharacteristicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

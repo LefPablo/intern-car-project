@@ -1,5 +1,6 @@
 package org.rent.cr.service.impl;
 
+import org.rent.cr.dao.JpaRepositoryAndJpaSpecificationExecutor;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @Transactional
-public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRepository<T,Integer>> implements EntityService<T> {
+public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRepositoryAndJpaSpecificationExecutor<T,Integer>> implements EntityService<T> {
     private R repository;
     private String entityName;
 
