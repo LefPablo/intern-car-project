@@ -44,12 +44,6 @@ public class ReservationServiceImpl extends EntityServiceImpl<Reservation, Reser
             throw new NotValidException("Period is not valid: start date must be early then end date");
         }
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails)principal).getUsername();
-
-        Employee employee = employeeService.findByEmail(username);
-        order.setEmployee(employee);
-
         //Made this loop because Hibernate throw exception "Found shared references to a collection: org.rent.cr.entity.Order.equipmentList; nested exception is org.hibernate.HibernateException: Found shared references to a collection: org.rent.cr.entity.Order.equipmentList"
         List<Equipment> equipment = new ArrayList<>();
         for (Equipment equip : reservation.getEquipmentList()) {
@@ -58,7 +52,15 @@ public class ReservationServiceImpl extends EntityServiceImpl<Reservation, Reser
 
         order.setEquipmentList(equipment);
         order = orderService.save(order); //throw exception if save not success
-        reservation.setProcessed(true);
+//        reservation.setProcessed(true); TODO don't know
         return order;
+    }
+
+    public void setEmployeeFromAuthentication(Reservation reservation) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails)principal).getUsername();
+
+        Employee employee = employeeService.findByEmail(username);
+        reservation.setEmployee(employee);
     }
 }

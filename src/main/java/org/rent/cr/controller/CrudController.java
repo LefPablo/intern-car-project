@@ -30,7 +30,7 @@ public abstract class CrudController<E, T extends EntityService> {
 
     @JsonView(View.Public.class)
     @GetMapping
-    public Page<E> getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", defaultValue = "") String field) {
+    public Page<E> getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", defaultValue = "") String field, @RequestParam(name = "filter", defaultValue = "") String filter) {
         String order = null;
         if (field != "") {
             String[] params = field.split("\\|");

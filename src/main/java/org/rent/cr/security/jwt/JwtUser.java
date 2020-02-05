@@ -8,17 +8,13 @@ import java.util.Date;
 
 public class JwtUser implements UserDetails {
 
-    private final Integer id;
     private final String username;
-    private final String email;
     private final String password;
     private final boolean enabled;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser(Integer id, String username, String email, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
+    public JwtUser(String email, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities) {
+        this.username = email;
         this.password = password;
         this.enabled = enabled;
         this.authorities = authorities;
@@ -57,13 +53,5 @@ public class JwtUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }

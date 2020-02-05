@@ -6,6 +6,7 @@ import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
+import org.rent.cr.exception.NotUpdatedException;
 import org.rent.cr.exception.NotValidException;
 import org.rent.cr.service.ReservationService;
 import org.slf4j.Logger;
@@ -34,6 +35,11 @@ public class ReservationController extends CrudController<Reservation, Reservati
     @Override
     public Reservation findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
+    }
+
+    @PostMapping("{id}/employee")
+    public void setEmployeeFromAuthentication(@PathVariable("id") Reservation reservation) throws NotUpdatedException {
+        reservationService.setEmployeeFromAuthentication(reservation);
     }
 
     @PostMapping("{id}/order")
