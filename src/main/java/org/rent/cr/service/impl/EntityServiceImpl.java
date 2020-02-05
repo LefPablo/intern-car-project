@@ -46,6 +46,7 @@ public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRep
             Object srcValue = src.getPropertyValue(pd.getName());
             if (srcValue == null) emptyNames.add(pd.getName());
         }
+        emptyNames.add("id"); //always ignore id
         String[] result = new String[emptyNames.size()];
         return (String[]) emptyNames.toArray(result);
     }

@@ -15,11 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderid")
-    private Integer id;
-
     @JsonView(View.PrivateOrder.class)
     @ManyToMany
     @JoinTable (name="order_equip",
@@ -71,10 +66,6 @@ public class Order extends GeneralEntity {
     private OrderStatus orderStatus;
 
     public Order() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Float getPrice() {

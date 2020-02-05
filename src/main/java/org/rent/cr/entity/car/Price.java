@@ -11,11 +11,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "prices")
 public class Price extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "priceid")
-    private Integer id;
-
     @Column(name = "pricevalue")
     private Float value;
 
@@ -29,10 +24,6 @@ public class Price extends GeneralEntity {
     private Car car;
 
     public Price() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Float getValue() {

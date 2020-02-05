@@ -12,11 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "equips")
 public class Equipment extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "equipid")
-    private Integer id;
-
     @JsonView(View.PrivateEquip.class)
     @OneToMany (mappedBy="equipment", fetch=FetchType.LAZY)
     private List<Characteristic> characteristics;
@@ -53,10 +48,6 @@ public class Equipment extends GeneralEntity {
     private EquipStatus status;
 
     public Equipment() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {
@@ -105,10 +96,6 @@ public class Equipment extends GeneralEntity {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public List<Reservation> getReservations() {

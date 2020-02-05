@@ -16,11 +16,6 @@ import java.util.List;
 @Entity
 @Table (name = "empls")
 public class Employee extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "emplid")
-    private Integer id;
-
     @OneToOne (optional=false, cascade=CascadeType.ALL)
     @JoinColumn (name="userid")
     private User user;
@@ -59,10 +54,6 @@ public class Employee extends GeneralEntity {
     private LocalDate gotjob;
 
     public Employee() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getEmail() {
@@ -137,7 +128,4 @@ public class Employee extends GeneralEntity {
         this.emplRoles = emplRoles;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

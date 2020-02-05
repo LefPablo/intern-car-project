@@ -14,11 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "periods")
 public class Period extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "periodid")
-    private Integer id;
-
     @JsonView(View.PrivatePeriod.class)
     @JsonIgnore
     @OneToMany(mappedBy = "period")
@@ -34,10 +29,6 @@ public class Period extends GeneralEntity {
     private PeriodType periodType;
 
     public Period() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {

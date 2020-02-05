@@ -14,17 +14,12 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 @Entity
 @Table(name = "cars")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Car extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "carid")
-    private Integer id;
-
     //Join
     @JsonView(View.PrivateCar.class)
     @OneToMany(mappedBy = "car")
@@ -107,10 +102,6 @@ public class Car extends GeneralEntity {
     private CarClass carClass;
 
     public Car() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Integer getYear() {

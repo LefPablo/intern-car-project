@@ -7,11 +7,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "characts")
 public class Characteristic extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "charactid")
-    private Integer id;
-
     @JsonIgnore
     @ManyToOne (optional=false)
     @JoinColumn (name="equipid")
@@ -21,10 +16,6 @@ public class Characteristic extends GeneralEntity {
     private String name;
 
     public Characteristic() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {

@@ -8,11 +8,6 @@ import javax.validation.constraints.Min;
 @Entity
 @Table(name = "fines")
 public class Fine extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "fineid")
-    private Integer id;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "orderid")
@@ -26,10 +21,6 @@ public class Fine extends GeneralEntity {
     private String comment;
 
     public Fine() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Float getPrice() {

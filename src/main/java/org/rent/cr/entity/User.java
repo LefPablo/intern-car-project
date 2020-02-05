@@ -12,11 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userid")
-    private Integer id;
-
     @JsonIgnore
     @OneToOne (mappedBy="user", fetch = FetchType.LAZY)
     private Employee employee;
@@ -53,14 +48,6 @@ public class User extends GeneralEntity {
     private String email;
 
     public User() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getAge() {

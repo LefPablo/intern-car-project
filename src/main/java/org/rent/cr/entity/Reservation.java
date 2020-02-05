@@ -13,11 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "reservs")
 public class Reservation extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reservid")
-    private Integer id;
-
     @JsonView(View.PrivateReserv.class)
     @ManyToOne
     @JoinColumn(name = "carid")
@@ -62,13 +57,9 @@ public class Reservation extends GeneralEntity {
     private LocalDateTime updated;
 
     @Column(name = "reservproces")
-    private Boolean processed;
+    private Boolean processed = false;
 
     public Reservation() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {

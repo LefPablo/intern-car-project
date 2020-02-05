@@ -9,11 +9,6 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "roles")
 public class EmplRole extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "roleid")
-    private Integer id;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "emplid")
@@ -25,10 +20,6 @@ public class EmplRole extends GeneralEntity {
     private Role role;
 
     public EmplRole() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Employee getEmployee() {
