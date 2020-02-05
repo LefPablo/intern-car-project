@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderid")
@@ -44,8 +44,10 @@ public class Order {
     @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "userid")
-    @JsonBackReference
     private User user;
+
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
+    private Reservation reservation;
 
     @Column(name = "orderprice")
     @Min(value = 0, message = "Price must be positive")
@@ -161,5 +163,13 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }

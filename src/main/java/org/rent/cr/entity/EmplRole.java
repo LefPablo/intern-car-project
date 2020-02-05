@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "roles")
-public class EmplRole {
+public class EmplRole extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roleid")

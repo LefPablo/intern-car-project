@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table (name = "empls")
-public class Employee {
+public class Employee extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "emplid")

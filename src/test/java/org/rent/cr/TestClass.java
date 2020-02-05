@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 public class TestClass {
     @Test
     public void mainTest() {
-        System.out.println(LocalDate.now());
+        for (String s : "nameasc".split("\\|")) {
+            System.out.println(s);
+        }
     }
 }

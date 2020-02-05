@@ -1,13 +1,14 @@
 package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
-public class Image {
+public class Image extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "imageid")

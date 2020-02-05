@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rent.cr.entity.car.Brand;
 import org.rent.cr.exception.NoEntityException;
+import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.impl.car.BrandServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,7 @@ public class BrandRepositoryTest {
 
     @Test
     @Transactional
-    public void whenFindByName_thenReturnEmployee() throws NoEntityException {
+    public void whenFindByName_thenReturnEmployee() throws NoEntityException, NotSavedException {
         Brand entity = new Brand();
         entity.setName("Qwert");
         Brand brand = brandServiceImpl.save(entity);

@@ -1,13 +1,14 @@
 package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.rent.cr.entity.GeneralEntity;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "colors")
-public class Color {
+public class Color extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "colorid")

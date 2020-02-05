@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "reservs")
-public class Reservation {
+public class Reservation extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservid")
@@ -35,12 +35,9 @@ public class Reservation {
             inverseJoinColumns = @JoinColumn(name = "equipid"))
     private List<Equipment> equipmentList;
 
-    @JsonView(View.PrivateReserv.class)
-    @ManyToOne
-    @JoinColumn(name = "userid")
-    private User user;
-
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderid")
+    private Order order;
 
     @Column(name = "reservname")
     @NotEmpty (message = "Name must be set")
@@ -138,14 +135,6 @@ public class Reservation {
         this.employee = employee;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -162,21 +151,11 @@ public class Reservation {
         this.equipmentList = equipmentList;
     }
 
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", car=" + car +
-                ", employee=" + employee +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", equipmentList=" + equipmentList +
-                ", user=" + user +
-                ", email='" + email + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                ", updated=" + updated +
-                ", processed=" + processed +
-                '}';
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

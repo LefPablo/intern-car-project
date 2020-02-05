@@ -2,6 +2,7 @@ package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.Period;
 import org.rent.cr.entity.car.Car;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "prices")
-public class Price {
+public class Price extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "priceid")

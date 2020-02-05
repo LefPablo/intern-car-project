@@ -1,6 +1,8 @@
 package org.rent.cr.service.impl;
 
+import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.exception.NoEntityException;
+import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.EntityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -8,6 +10,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Transactional
-public abstract class EntityServiceImpl<T,R extends JpaRepository<T,Integer>> implements EntityService<T> {
+public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRepository<T,Integer>> implements EntityService<T> {
     private R repository;
     private String entityName;
 
@@ -58,15 +61,38 @@ public abstract class EntityServiceImpl<T,R extends JpaRepository<T,Integer>> im
     }
 
     @Override
+    public Page<T> getPage(int page, int size, String field, String order) {
+        page--; // -1 from page because pages starts from 0 but for users more comfortable start from 1
+        Sort sort = null;
+        if (field != null) {
+            if (order != null && order.equals("desc")) {
+                sort = Sort.by(field).descending();
+            } else if (order != null && order.equals("asc")) {
+                sort = Sort.by(field).ascending();
+            } else {
+                sort = Sort.unsorted();
+            }
+        } else {
+            sort = Sort.unsorted();
+        }
+        Pageable pageable = PageRequest.of(page,size, sort);
+        Page<T> result = repository.findAll(pageable);
+        return result;
+    }
+
     public Page<T> getPage(int p, int size) {
-        Pageable pageable = PageRequest.of(p,size);
-        Page<T> page = repository.findAll(pageable);
-        return page;
+        return getPage(p, size, null, null);
     }
 
     @Override
-    public T save(T entity) {
-        return repository.save(entity);
+    public T save(T entity) throws NotSavedException {
+        T result = repository.save(entity);
+
+        if (repository.existsById(result.getId())) {
+            return result;
+        } else {
+            throw new NotSavedException(entityName);
+        }
     }
 
     @Override

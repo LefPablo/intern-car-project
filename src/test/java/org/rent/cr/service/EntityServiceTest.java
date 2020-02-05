@@ -5,11 +5,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rent.cr.entity.Equipment;
 import org.rent.cr.exception.NoEntityException;
+import org.rent.cr.exception.NotSavedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.ServletContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -20,6 +24,18 @@ public class EntityServiceTest {
     @Autowired
     private EquipmentService entityService;
 
+    @Autowired
+    Environment environment;
+
+    @Autowired
+    private ServletContext servletContext;
+
+    @Test
+    public void localTest() {
+        System.out.println(servletContext.getContextPath());
+        System.out.println(environment.getProperty("server.port"));
+    }
+
     @Test
     public void findById() throws NoEntityException {
         Equipment equipment = entityService.findById(1);
@@ -27,7 +43,7 @@ public class EntityServiceTest {
     }
 
     @Test
-    public void save() {
+    public void save() throws NotSavedException {
         Equipment equipment = new Equipment();
         equipment.setName("Baby chair");
         equipment.setPrice(10.20F);

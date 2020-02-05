@@ -7,7 +7,7 @@ function getIndex(list, id) {
     return -1;
 }
 
-var messageApi = Vue.resource('/brands{/id}')
+    var messageApi = Vue.resource('/brands{/id}')
 
 Vue.component("model-form", {
     props: ['messages', 'messageAttr'],

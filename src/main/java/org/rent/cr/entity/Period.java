@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "periods")
-public class Period {
+public class Period extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "periodid")

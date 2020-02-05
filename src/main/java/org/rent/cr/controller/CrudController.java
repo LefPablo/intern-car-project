@@ -3,16 +3,16 @@ package org.rent.cr.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.exception.NoEntityException;
+import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.EntityService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 public abstract class CrudController<E, T extends EntityService> {
     private T service;
     private String entityName;
@@ -22,16 +22,27 @@ public abstract class CrudController<E, T extends EntityService> {
         this.entityName = entityName;
     }
 
-    @JsonView(View.Public.class)
-    @GetMapping
+
+    @GetMapping("all")
     public List<E> findAll() {
         return service.findAll();
     }
 
-    @GetMapping("page/{p}")
-    public Page<E> getPage(@PathVariable("p") int p, @RequestParam(name = "size", defaultValue = "30") int size) {
-        Page<E> page = service.getPage(p, size);
-        return page;
+    @JsonView(View.Public.class)
+    @GetMapping
+    public Page<E> getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", defaultValue = "") String field) {
+        String order = null;
+        if (field != "") {
+            String[] params = field.split("\\|");
+            if (params.length == 2) {
+                order = params[1];
+                field = params[0];
+            }
+        } else {
+            field = null;
+        }
+        Page<E> result = service.getPage(page, size, field, order);
+        return result;
     }
 
     @JsonView(View.Private.class)
@@ -42,7 +53,7 @@ public abstract class CrudController<E, T extends EntityService> {
     }
 
     @PostMapping
-    public E save(@RequestBody E entity) {
+    public E save(@RequestBody E entity) throws NotSavedException {
         entity = (E) service.save(entity);
         return entity;
     }

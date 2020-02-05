@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "fines")
-public class Fine {
+public class Fine extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fineid")

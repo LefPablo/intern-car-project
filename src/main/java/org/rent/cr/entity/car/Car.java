@@ -2,6 +2,7 @@ package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.*;
 import org.rent.cr.dto.view.View;
+import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
 import org.rent.cr.entity.enums.*;
@@ -18,7 +19,7 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Car {
+public class Car extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "carid")

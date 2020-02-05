@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
@@ -23,12 +23,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Order> orders;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Reservation> reservations;
 
     @Column (name = "username")
     @NotEmpty(message = "Name must be set")
@@ -138,13 +133,5 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
     }
 }

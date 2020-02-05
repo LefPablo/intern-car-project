@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "characts")
-public class Characteristic {
+public class Characteristic extends GeneralEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "charactid")
