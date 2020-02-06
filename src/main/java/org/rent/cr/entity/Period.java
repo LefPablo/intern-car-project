@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "periods")
 public class Period extends GeneralEntity {
-    @JsonView(View.PrivatePeriod.class)
     @JsonIgnore
     @OneToMany(mappedBy = "period")
     private List<Price> prices;

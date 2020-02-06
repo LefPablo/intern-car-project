@@ -4,16 +4,21 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.Employee;
 import org.rent.cr.exception.NoEntityException;
+import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 @RestController
-@RequestMapping("employee")
+@RequestMapping("employees")
 public class EmployeeController extends CrudController<Employee, EmployeeService> {
     EmployeeService employeeService;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public EmployeeController(EmployeeService service) {
@@ -21,7 +26,6 @@ public class EmployeeController extends CrudController<Employee, EmployeeService
         employeeService = service;
     }
 
-    @JsonView(View.PrivateEmpl.class)
     @Override
     public Employee findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

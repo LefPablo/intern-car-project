@@ -6,44 +6,40 @@ import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EmplStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table (name = "empls")
 public class Employee extends GeneralEntity {
-    @OneToOne (optional=false, cascade=CascadeType.ALL)
+    @OneToOne (optional=false)
     @JoinColumn (name="userid")
     private User user;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Order> orders;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
-    @JsonView(View.PrivateEmpl.class)
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     private List<EmplRole> emplRoles;
 
     @Column(name = "emplemail")
+    @NotEmpty(message = "Employee must be set")
     @Email(message = "Email is not correct")
     private String email;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(name = "emplpassword")
     @NotEmpty(message = "Password must be set")
     @Size(min = 6, message = "Password size must be 6 or bigger")
     private String password;
 
     @Column(name = "emplstatus")
-    @NotEmpty(message = "Status must be set")
+    @NotNull(message = "Status must be set")
+    @Enumerated(EnumType.STRING)
     private EmplStatus status;
 
     @Column(name = "emplposition")

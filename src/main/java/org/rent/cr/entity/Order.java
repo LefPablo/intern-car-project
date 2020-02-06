@@ -15,28 +15,23 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order extends GeneralEntity {
-    @JsonView(View.PrivateOrder.class)
     @ManyToMany
     @JoinTable (name="order_equip",
             joinColumns=@JoinColumn (name="orderid"),
             inverseJoinColumns=@JoinColumn(name="equipid"))
     private List<Equipment> equipmentList;
 
-    @JsonView(View.PrivateOrder.class)
     @OneToMany(mappedBy = "order")
     private List<Fine> fines;
 
-    @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "carid")
     private Car car;
 
-    @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "emplid")
     private Employee employee;
 
-    @JsonView(View.PrivateOrder.class)
     @ManyToOne
     @JoinColumn(name = "userid")
     private User user;

@@ -13,17 +13,14 @@ import java.util.List;
 @Entity
 @Table(name = "reservs")
 public class Reservation extends GeneralEntity {
-    @JsonView(View.PrivateReserv.class)
     @ManyToOne
     @JoinColumn(name = "carid")
     private Car car;
 
-    @JsonView(View.PrivateReserv.class)
     @ManyToOne
     @JoinColumn(name = "emplid")
     private Employee employee;
 
-    @JsonView(View.PrivateReserv.class)
     @ManyToMany
     @JoinTable(name = "reserv_equip",
             joinColumns = @JoinColumn(name = "reservid"),

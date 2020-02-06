@@ -5,6 +5,8 @@ import org.rent.cr.dto.view.View;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.EntityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,8 @@ import java.util.Map;
 public abstract class CrudController<E, T extends EntityService> {
     private T service;
     private String entityName;
+
+    private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     public CrudController(T service, String entityName) {
         this.service = service;
@@ -49,12 +53,15 @@ public abstract class CrudController<E, T extends EntityService> {
     @GetMapping("{id}")
     public E findById(@PathVariable("id") int id) throws NoEntityException {
         E entity = (E) service.findById(id);
+        logger.info(entityName + " added");
         return entity;
     }
 
+    @JsonView(View.Public.class)
     @PostMapping
     public E save(@RequestBody E entity) throws NotSavedException {
         entity = (E) service.save(entity);
+        logger.info(entityName + " updated");
         return entity;
     }
 

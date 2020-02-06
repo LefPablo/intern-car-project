@@ -21,7 +21,6 @@ public class EquipmentController extends CrudController<Equipment, EquipmentServ
         equipmentService = service;
     }
 
-    @JsonView(View.PrivateEquip.class)
     @Override
     public Equipment findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

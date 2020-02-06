@@ -12,11 +12,9 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User extends GeneralEntity {
-    @JsonIgnore
     @OneToOne (mappedBy="user", fetch = FetchType.LAZY)
     private Employee employee;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 

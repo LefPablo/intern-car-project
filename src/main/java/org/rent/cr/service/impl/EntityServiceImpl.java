@@ -4,6 +4,7 @@ import org.rent.cr.dao.JpaRepositoryAndJpaSpecificationExecutor;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
+import org.rent.cr.exception.NotUpdatedException;
 import org.rent.cr.service.EntityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -89,12 +90,12 @@ public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRep
     @Override
     public T save(T entity) throws NotSavedException {
         T result = repository.save(entity);
-
-        if (repository.existsById(result.getId())) {
-            return result;
-        } else {
-            throw new NotSavedException(entityName);
-        }
+        return result;
+//        if (repository.existsById(result.getId())) {
+//            return result;
+//        } else {
+//            throw new NotSavedException(entityName);
+//        }
     }
 
     @Override

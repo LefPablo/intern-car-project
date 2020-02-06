@@ -31,7 +31,6 @@ public class ReservationController extends CrudController<Reservation, Reservati
         this.servletContext = servletContext;
     }
 
-    @JsonView(View.PrivateReserv.class)
     @Override
     public Reservation findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

@@ -9,11 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "colors")
 public class Color extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "colorid")
-    private Integer id;
-
     @Column(name = "colorname")
     private String name;
 
@@ -22,10 +17,6 @@ public class Color extends GeneralEntity {
     private List<Car> cars;
 
     public Color() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {

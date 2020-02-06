@@ -25,7 +25,6 @@ public class BrandController extends CrudController<Brand, BrandService> {
         brandService = service;
     }
 
-    @JsonView(View.PrivateBrand.class)
     @Override
     public Brand findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

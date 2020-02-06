@@ -21,7 +21,6 @@ public class ModelController extends CrudController<Model, ModelService> {
         ModelService = service;
     }
 
-    @JsonView(View.PrivatePeriod.class)
     @Override
     public Model findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "characts")
 public class Characteristic extends GeneralEntity {
-    @JsonIgnore
     @ManyToOne (optional=false)
     @JoinColumn (name="equipid")
     private Equipment equipment;

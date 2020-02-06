@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "equips")
 public class Equipment extends GeneralEntity {
-    @JsonView(View.PrivateEquip.class)
     @OneToMany (mappedBy="equipment", fetch=FetchType.LAZY)
     private List<Characteristic> characteristics;
 
@@ -23,7 +22,6 @@ public class Equipment extends GeneralEntity {
             inverseJoinColumns=@JoinColumn(name="orderid"))
     private List<Order> orders;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "reserv_equip",
             joinColumns = @JoinColumn(name = "equipid"),

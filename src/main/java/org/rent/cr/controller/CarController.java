@@ -29,7 +29,6 @@ public class CarController extends CrudController<Car, CarService> {
         carService = service;
     }
 
-    @JsonView(View.PrivateCar.class)
     @Override
     public Car findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

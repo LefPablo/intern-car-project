@@ -15,16 +15,11 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Brand extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "brandid")
-    private Integer id;
-
-    @JsonView(View.PrivateBrand.class)
+//    @JsonIgnore
     @OneToMany(mappedBy = "brand")
     private List<Model> models;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "brand")
     private List<Car> cars;
 
@@ -34,11 +29,7 @@ public class Brand extends GeneralEntity {
     public Brand() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-        public List<Model> getModels() {
+    public List<Model> getModels() {
         return models;
     }
 

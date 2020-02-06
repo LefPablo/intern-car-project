@@ -11,11 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "options")
 public class Option extends GeneralEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "optionid")
-    private Integer id;
-
     @Column(name = "optionname")
     private String name;
 
@@ -27,10 +22,6 @@ public class Option extends GeneralEntity {
     private List<Car> cars;
 
     public Option() {
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getName() {

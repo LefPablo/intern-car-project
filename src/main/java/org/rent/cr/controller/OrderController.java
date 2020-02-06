@@ -21,7 +21,6 @@ public class OrderController extends CrudController<Order, OrderService> {
         orderService = service;
     }
 
-    @JsonView(View.PrivateOrder.class)
     @Override
     public Order findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);

@@ -21,18 +21,15 @@ import java.util.List;
 @Table(name = "cars")
 public class Car extends GeneralEntity {
     //Join
-    @JsonView(View.PrivateCar.class)
     @OneToMany(mappedBy = "car")
     private List<Image> images;
 
-    @JsonView(View.PrivateCar.class)
     @ManyToMany
     @JoinTable (name="car_option",
             joinColumns=@JoinColumn (name="carid"),
             inverseJoinColumns=@JoinColumn(name="optionid"))
     private List<Option> options;
 
-    @JsonView(View.PrivateCar.class)
     @OneToMany(mappedBy = "car")
     private List<Price> prices;
 
