@@ -1,14 +1,12 @@
 package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.*;
-import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
 import org.rent.cr.entity.enums.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -21,7 +19,7 @@ import java.util.List;
 @Table(name = "cars")
 public class Car extends GeneralEntity {
     //Join
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Image> images;
 
     @ManyToMany
@@ -75,7 +73,7 @@ public class Car extends GeneralEntity {
     private String consumption;
 
     @Column(name = "cardescr")
-    private String descr;
+    private String description;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -141,12 +139,12 @@ public class Car extends GeneralEntity {
         this.consumption = consumption;
     }
 
-    public String getDescr() {
-        return descr;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescr(String descr) {
-        this.descr = descr;
+    public void setDescription(String descr) {
+        this.description = descr;
     }
 
     public CarStatus getCarStatus() {

@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CharacteristicServiceImpl extends EntityServiceImpl<Characteristic, CharacteristicRepository> implements CharacteristicService {
-    private CharacteristicRepository characteristicRepository;
+public class CharacteristicServiceImpl extends CrudServiceImpl<Characteristic, CharacteristicRepository> implements CharacteristicService {
 
     @Autowired
     public CharacteristicServiceImpl(CharacteristicRepository characteristicRepository) {
-        super(characteristicRepository, "characteristic");
-        this.characteristicRepository = characteristicRepository;
+        super(characteristicRepository);
     }
 }

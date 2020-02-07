@@ -4,7 +4,6 @@ import org.rent.cr.dao.JpaRepositoryAndJpaSpecificationExecutor;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
-import org.rent.cr.exception.NotUpdatedException;
 import org.rent.cr.service.EntityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -13,21 +12,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
+import com.google.common.reflect.TypeToken;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Transactional
-public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRepositoryAndJpaSpecificationExecutor<T,Integer>> implements EntityService<T> {
-    private R repository;
+public abstract class CrudServiceImpl<T extends GeneralEntity,R extends JpaRepositoryAndJpaSpecificationExecutor<T,Integer>> implements EntityService<T> {
+    protected R repository;
     private String entityName;
 
-    public EntityServiceImpl(R repository, String entityName) {
+    public CrudServiceImpl(R repository) {
         this.repository = repository;
-        this.entityName = entityName;
+        TypeToken<T> type = new TypeToken<T>(getClass()) {};
+        entityName = type.getType().getTypeName();
     }
 
     //Copies properties from one object to another
@@ -87,15 +87,15 @@ public abstract class EntityServiceImpl<T extends GeneralEntity,R extends JpaRep
         return getPage(p, size, null, null);
     }
 
+
     @Override
     public T save(T entity) throws NotSavedException {
         T result = repository.save(entity);
-        return result;
-//        if (repository.existsById(result.getId())) {
-//            return result;
-//        } else {
-//            throw new NotSavedException(entityName);
-//        }
+        if (repository.existsById(result.getId())) {
+            return result;
+        } else {
+            throw new NotSavedException(entityName);
+        }
     }
 
     @Override

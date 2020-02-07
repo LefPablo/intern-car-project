@@ -1,17 +1,19 @@
 package org.rent.cr.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import org.rent.cr.dto.view.View;
+import org.rent.cr.dto.car.BrandDto;
 import org.rent.cr.entity.car.Brand;
 import org.rent.cr.entity.car.Model;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,13 +27,21 @@ public class BrandController extends CrudController<Brand, BrandService> {
         brandService = service;
     }
 
+//    @Override
+//    public Page<Brand> getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", defaultValue = "") String field, @RequestParam(name = "filter", defaultValue = "") String filter) {
+//        Page result = super.getPage(page, size, field, filter);
+//        MappingJacksonValue jacksonValue = new MappingJacksonValue(result);
+//        return result;
+//    }
+
     @Override
-    public Brand findById(@PathVariable("id") int id) throws NoEntityException {
+    @Secured("ROLE_ADMIN")
+    public Object findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
     }
 
-    //    @GetMapping("{id}/models")
-//    public List<Model> findByIdModels(@PathVariable("id") int id) throws NoEntityException {
-//        return super.findById(id).getModels();
-//    }
+    @GetMapping("{id}/models")
+    public Object findByIdModels(@PathVariable("id") int id) throws NoEntityException {
+        return ((Brand) super.findById(id)).getModels();
+    }
 }

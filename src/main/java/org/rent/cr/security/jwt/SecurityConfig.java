@@ -3,13 +3,16 @@ package org.rent.cr.security.jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -37,9 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(HttpMethod.POST,ADMIN_ENDPOINT).hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,EMPLOYEE_ENDPOINT).hasRole("EMPLOYEE")
-                .anyRequest().anonymous()
+//                .antMatchers(HttpMethod.POST,ADMIN_ENDPOINT).hasRole("ADMIN")
+//                .antMatchers(HttpMethod.POST,EMPLOYEE_ENDPOINT).hasRole("EMPLOYEE")
+//                .anyRequest().anonymous()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

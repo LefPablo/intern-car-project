@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class EquipmentServiceImpl extends EntityServiceImpl<Equipment, EquipmentRepository> implements EquipmentService {
-    private EquipmentRepository equipmentRepository;
+public class EquipmentServiceImpl extends CrudServiceImpl<Equipment, EquipmentRepository> implements EquipmentService {
 
     @Autowired
     public EquipmentServiceImpl(EquipmentRepository equipmentRepository) {
-        super(equipmentRepository, "Equipment");
-        this.equipmentRepository = equipmentRepository;
+        super(equipmentRepository);
     }
 }

@@ -22,7 +22,7 @@ public class ModelController extends CrudController<Model, ModelService> {
     }
 
     @Override
-    public Model findById(@PathVariable("id") int id) throws NoEntityException {
+    public Object findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
     }
 }

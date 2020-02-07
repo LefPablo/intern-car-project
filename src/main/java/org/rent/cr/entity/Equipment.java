@@ -1,8 +1,6 @@
 package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EquipStatus;
 
 import javax.persistence.*;
@@ -22,6 +20,7 @@ public class Equipment extends GeneralEntity {
             inverseJoinColumns=@JoinColumn(name="orderid"))
     private List<Order> orders;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "reserv_equip",
             joinColumns = @JoinColumn(name = "equipid"),
@@ -39,7 +38,7 @@ public class Equipment extends GeneralEntity {
     private String image;
 
     @Column(name = "equipdescr")
-    private String descr;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "equipstatus")
@@ -72,12 +71,12 @@ public class Equipment extends GeneralEntity {
         this.image = image;
     }
 
-    public String getDescr() {
-        return descr;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescr(String descr) {
-        this.descr = descr;
+    public void setDescription(String descr) {
+        this.description = descr;
     }
 
     public List<Characteristic> getCharacteristics() {

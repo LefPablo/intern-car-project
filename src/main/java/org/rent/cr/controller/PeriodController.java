@@ -22,7 +22,7 @@ public class PeriodController extends CrudController<Period, PeriodService> {
     }
 
     @Override
-    public Period findById(@PathVariable("id") int id) throws NoEntityException {
+    public Object findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
     }
 }

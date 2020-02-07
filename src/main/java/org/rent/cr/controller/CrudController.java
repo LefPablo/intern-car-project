@@ -8,6 +8,9 @@ import org.rent.cr.service.EntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,15 +29,14 @@ public abstract class CrudController<E, T extends EntityService> {
         this.entityName = entityName;
     }
 
-
     @GetMapping("all")
-    public List<E> findAll() {
+    public Object findAll() {
         return service.findAll();
     }
 
-    @JsonView(View.Public.class)
+//    @JsonView(View.Public.class)
     @GetMapping
-    public Page<E> getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", defaultValue = "") String field, @RequestParam(name = "filter", defaultValue = "") String filter) {
+    public Object getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", defaultValue = "") String field, @RequestParam(name = "filter", defaultValue = "") String filter) {
         String order = null;
         if (field != "") {
             String[] params = field.split("\\|");
@@ -49,39 +51,40 @@ public abstract class CrudController<E, T extends EntityService> {
         return result;
     }
 
-    @JsonView(View.Private.class)
     @GetMapping("{id}")
-    public E findById(@PathVariable("id") int id) throws NoEntityException {
+    public Object findById(@PathVariable("id") int id) throws NoEntityException {
         E entity = (E) service.findById(id);
+        return entity;
+    }
+
+//    @JsonView(View.Public.class)
+    @PostMapping
+    public Object save(@RequestBody E entity) throws NotSavedException {
+        entity = (E) service.save(entity);
         logger.info(entityName + " added");
         return entity;
     }
 
-    @JsonView(View.Public.class)
-    @PostMapping
-    public E save(@RequestBody E entity) throws NotSavedException {
-        entity = (E) service.save(entity);
-        logger.info(entityName + " updated");
-        return entity;
-    }
-
     @PutMapping("{id}")
-    public E update(@PathVariable("id") E entityFromDb, @RequestBody E entity) {
+    public Object update(@PathVariable("id") E entityFromDb, @RequestBody E entity) {
         service.copyNonNullProperties(entity, entityFromDb);
         entity = (E) service.update(entityFromDb);
+        logger.info(entityName + " updated");
         return entity;
     }
 
     @DeleteMapping("deleteAll")
     public void deleteAll() {
         service.deleteAll();
+        logger.info(entityName + " all records deleted");
     }
 
     @DeleteMapping("{id}")
-    public Map deleteById(@PathVariable("id") int id) throws NoEntityException {
+    public Object deleteById(@PathVariable("id") int id) throws NoEntityException {
         service.deleteById(id);
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("message", entityName + " was deleted");
+        logger.info(entityName + " deleted");
         return responseMap;
     }
 }

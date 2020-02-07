@@ -18,15 +18,13 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ReservationServiceImpl extends EntityServiceImpl<Reservation, ReservationRepository>  implements ReservationService {
-    private ReservationRepository reservationRepository;
+public class ReservationServiceImpl extends CrudServiceImpl<Reservation, ReservationRepository> implements ReservationService {
     private OrderService orderService;
     private EmployeeService employeeService;
 
     @Autowired
     public ReservationServiceImpl(ReservationRepository reservationRepository, OrderService orderService, EmployeeService employeeService) {
-        super(reservationRepository, "Reservation");
-        this.reservationRepository = reservationRepository;
+        super(reservationRepository);
         this.orderService = orderService;
         this.employeeService = employeeService;
     }

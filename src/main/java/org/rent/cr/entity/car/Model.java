@@ -13,11 +13,11 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Model extends GeneralEntity {
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "model")
     private List<Car> cars;
 
-//    @JsonView(View.PrivateModel.class)
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "brandid")
     private Brand brand;

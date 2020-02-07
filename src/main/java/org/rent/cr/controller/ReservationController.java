@@ -32,7 +32,7 @@ public class ReservationController extends CrudController<Reservation, Reservati
     }
 
     @Override
-    public Reservation findById(@PathVariable("id") int id) throws NoEntityException {
+    public Object findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
     }
 

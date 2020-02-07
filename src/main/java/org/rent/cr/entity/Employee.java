@@ -17,13 +17,15 @@ public class Employee extends GeneralEntity {
     @JoinColumn (name="userid")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Order> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<EmplRole> emplRoles;
 
     @Column(name = "emplemail")

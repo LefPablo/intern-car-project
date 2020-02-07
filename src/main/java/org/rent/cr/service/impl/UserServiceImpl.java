@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserServiceImpl extends EntityServiceImpl<User, UserRepository> implements UserService {
-    private UserRepository userRepository;
+public class UserServiceImpl extends CrudServiceImpl<User, UserRepository> implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
-        super(userRepository, "User");
-        this.userRepository = userRepository;
+        super(userRepository);
     }
 }

@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PeriodServiceImpl extends EntityServiceImpl<Period, PeriodRepository> implements PeriodService {
-    private PeriodRepository periodRepository;
+public class PeriodServiceImpl extends CrudServiceImpl<Period, PeriodRepository> implements PeriodService {
 
     @Autowired
     public PeriodServiceImpl(PeriodRepository periodRepository) {
-        super(periodRepository, "Period");
-        this.periodRepository = periodRepository;
+        super(periodRepository);
     }
 }

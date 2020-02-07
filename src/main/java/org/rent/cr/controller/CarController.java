@@ -1,6 +1,7 @@
 package org.rent.cr.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.car.CarDto;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
@@ -11,10 +12,8 @@ import org.rent.cr.entity.car.Price;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,33 +28,28 @@ public class CarController extends CrudController<Car, CarService> {
         carService = service;
     }
 
-    @Override
-    public Car findById(@PathVariable("id") int id) throws NoEntityException {
-        return super.findById(id);
-    }
-
-    @GetMapping("prices")
+    @GetMapping("{id}/prices")
     public List<Price> findByIdPrices(@PathVariable("id") int id) throws NoEntityException {
-        return super.findById(id).getPrices();
+        return ((Car) super.findById(id)).getPrices();
     }
 
-    @GetMapping("orders")
+    @GetMapping("{id}/orders")
     public List<Order> findByIdOrders(@PathVariable("id") int id) throws NoEntityException {
-        return super.findById(id).getOrders();
+        return ((Car) super.findById(id)).getOrders();
     }
 
     @GetMapping("reservations")
     public List<Reservation> findByIdReservations(@PathVariable("id") int id) throws NoEntityException {
-        return super.findById(id).getReservations();
+        return ((Car) super.findById(id)).getReservations();
     }
 
-    @GetMapping("options")
+    @GetMapping("{id}/options")
     public List<Option> findByIdOptions(@PathVariable("id") int id) throws NoEntityException {
-        return super.findById(id).getOptions();
+        return ((Car) super.findById(id)).getOptions();
     }
 
-    @GetMapping("images")
+    @GetMapping("{id}/images")
     public List<Image> findByIdImages(@PathVariable("id") int id) throws NoEntityException {
-        return super.findById(id).getImages();
+        return ((Car) super.findById(id)).getImages();
     }
 }

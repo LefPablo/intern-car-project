@@ -22,7 +22,7 @@ public class OrderController extends CrudController<Order, OrderService> {
     }
 
     @Override
-    public Order findById(@PathVariable("id") int id) throws NoEntityException {
+    public Object findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
     }
 }

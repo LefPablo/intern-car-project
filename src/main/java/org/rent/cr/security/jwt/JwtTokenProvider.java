@@ -36,7 +36,7 @@ public class JwtTokenProvider {
     private long validityInMilliseconds;
 
 
-    @Qualifier("jwtUserDetailsSevice")
+    @Qualifier("jwtUserDetailsService")
     @Autowired
     private UserDetailsService userDetailsService;
 

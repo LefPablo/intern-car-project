@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class OrderServiceImpl extends EntityServiceImpl<Order, OrderRepository> implements OrderService {
-    private OrderRepository orderRepository;
+public class OrderServiceImpl extends CrudServiceImpl<Order, OrderRepository> implements OrderService {
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository) {
-        super(orderRepository, "Order");
-        this.orderRepository = orderRepository;
+        super(orderRepository);
     }
 }

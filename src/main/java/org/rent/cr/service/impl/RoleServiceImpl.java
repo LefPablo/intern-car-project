@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class RoleServiceImpl extends EntityServiceImpl<EmplRole, EmplRoleRepository> implements RoleService {
-    private EmplRoleRepository emplRoleRepository;
+public class RoleServiceImpl extends CrudServiceImpl<EmplRole, EmplRoleRepository> implements RoleService {
 
     @Autowired
     public RoleServiceImpl(EmplRoleRepository emplRoleRepository) {
-        super(emplRoleRepository, "EmplRole");
-        this.emplRoleRepository = emplRoleRepository;
+        super(emplRoleRepository);
     }
 }

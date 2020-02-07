@@ -11,15 +11,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "brands")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+//@JsonIdentityInfo( // code for prevent loop json
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Brand extends GeneralEntity {
-//    @JsonIgnore
-    @OneToMany(mappedBy = "brand")
+    @JsonIgnore
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     private List<Model> models;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "brand")
     private List<Car> cars;
 

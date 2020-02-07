@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class FineServiceImpl extends EntityServiceImpl<Fine, FineRepository> implements FineService {
-    private FineRepository fineRepository;
+public class FineServiceImpl extends CrudServiceImpl<Fine, FineRepository> implements FineService {
 
     @Autowired
     public FineServiceImpl(FineRepository fineRepository) {
-        super(fineRepository, "Fine");
-        this.fineRepository = fineRepository;
+        super(fineRepository);
     }
 }

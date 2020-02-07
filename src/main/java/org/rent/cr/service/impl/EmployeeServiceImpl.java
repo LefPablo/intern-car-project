@@ -1,26 +1,22 @@
 package org.rent.cr.service.impl;
 
-import org.rent.cr.entity.Employee;
 import org.rent.cr.dao.repo.EmployeeRepository;
+import org.rent.cr.entity.Employee;
 import org.rent.cr.exception.NotSavedException;
-import org.rent.cr.exception.NotUpdatedException;
 import org.rent.cr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 @Service
 @Transactional
-public class EmployeeServiceImpl extends EntityServiceImpl<Employee, EmployeeRepository> implements EmployeeService {
-    private EmployeeRepository employeeRepository;
+public class EmployeeServiceImpl extends CrudServiceImpl<Employee, EmployeeRepository> implements EmployeeService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        super(employeeRepository, "Employee");
-        this.employeeRepository = employeeRepository;
+        super(employeeRepository);
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -38,6 +34,6 @@ public class EmployeeServiceImpl extends EntityServiceImpl<Employee, EmployeeRep
 
     @Override
     public Employee findByEmail(String email) {
-        return employeeRepository.findByEmail(email);
+        return repository.findByEmail(email);
     }
 }
