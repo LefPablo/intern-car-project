@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EmplStatus;
+import org.rent.cr.entity.enums.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Table (name = "empls")
+@JsonView(View.Public.class)
 public class Employee extends GeneralEntity {
     @OneToOne (optional=false)
     @JoinColumn (name="userid")
@@ -25,15 +27,17 @@ public class Employee extends GeneralEntity {
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<EmplRole> emplRoles;
+    @ElementCollection
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "emplid"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rolename")
+    private List<Role> roles;
 
     @Column(name = "emplemail")
     @NotEmpty(message = "Employee must be set")
     @Email(message = "Email is not correct")
     private String email;
 
-//    @JsonIgnore
     @Column(name = "emplpassword")
     @NotEmpty(message = "Password must be set")
     @Size(min = 6, message = "Password size must be 6 or bigger")
@@ -50,6 +54,9 @@ public class Employee extends GeneralEntity {
 
     @Column(name = "emplgotjob")
     private LocalDate gotjob;
+
+    @Column(name = "emplenabled")
+    private Boolean enabled = false;
 
     public Employee() {
     }
@@ -118,12 +125,19 @@ public class Employee extends GeneralEntity {
         this.reservations = reservations;
     }
 
-    public List<EmplRole> getEmplRoles() {
-        return emplRoles;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setEmplRoles(List<EmplRole> emplRoles) {
-        this.emplRoles = emplRoles;
+    public void setRoles(List<Role> emplRoles) {
+        this.roles = emplRoles;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 }

@@ -1,12 +1,15 @@
 package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "fines")
+@JsonView(View.Public.class)
 public class Fine extends GeneralEntity {
     @JsonIgnore
     @ManyToOne

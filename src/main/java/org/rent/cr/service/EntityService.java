@@ -14,7 +14,5 @@ public interface EntityService<T> {
     void deleteById(int id) throws NoEntityException;
     void deleteAll();
     List<T> findAll();
-    Page<T> getPage(int p, int s, String field, String order);
-
-    void copyNonNullProperties(Object source, Object destination);
+    Page<T> getPage(int p, int s, String field, String order, String filter);
 }

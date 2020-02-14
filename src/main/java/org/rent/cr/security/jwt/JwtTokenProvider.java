@@ -1,12 +1,7 @@
 package org.rent.cr.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import org.rent.cr.entity.EmplRole;
+import io.jsonwebtoken.*;
+import org.rent.cr.entity.enums.Role;
 import org.rent.cr.exception.JwtAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,7 +46,7 @@ public class JwtTokenProvider {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public String createToken(String username, List<EmplRole> roles) {
+    public String createToken(String username, List<Role> roles) {
 
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", getRoleNames(roles));
@@ -98,11 +93,11 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<EmplRole> userRoles) {
+    private List<String> getRoleNames(List<Role> userRoles) {
         List<String> result = new ArrayList<>();
 
         userRoles.forEach(role -> {
-            result.add(role.getRole().name());
+            result.add(role.name());
         });
 
         return result;

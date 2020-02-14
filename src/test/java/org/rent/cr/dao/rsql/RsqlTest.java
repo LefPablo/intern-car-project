@@ -2,28 +2,32 @@ package org.rent.cr.dao.rsql;
 
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rent.cr.dao.repo.OrderRepository;
 import org.rent.cr.dao.repo.car.BrandRepository;
+import org.rent.cr.entity.Order;
 import org.rent.cr.entity.car.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
 import java.util.List;
-
-import static org.hamcrest.Matchers.in;
-import static org.hamcrest.Matchers.oneOf;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RsqlTest {
     @Autowired
     private BrandRepository brandRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     private Brand brand1;
 
@@ -41,11 +45,27 @@ public class RsqlTest {
     }
 
     @Test
-    public void name() {
-        Node rootNode = new RSQLParser().parse("name=in=(Suzuki,Skoda)");
-        Specification<Brand> spec = rootNode.accept(new CustomRsqlVisitor<Brand>());
-        List<Brand> results = brandRepository.findAll(spec);
-
-        Assert.assertThat(brand1, oneOf(results));
+    public void name() throws NoSuchFieldException {
+        Node rootNode = new RSQLParser().parse("price=='26.6'");
+        Specification<Order> spec = rootNode.accept(new CustomRsqlVisitor<Order>());
+        List<Order> results = orderRepository.findAll(spec);
+        System.out.println();
     }
+
+//    public List<Order> searchByQuery(String queryString) throws NoSuchFieldException {
+//        RSQLVisitor<CriteriaQuery<Order>, EntityManager> visitor = new JpaCriteriaQueryVisitor<>();
+//        Node rootNode;
+//        CriteriaQuery<Order> query;
+//        try {
+//            rootNode = new RSQLParser().parse(queryString);
+//            query = rootNode.accept(visitor, entityManager);
+//        }catch (Exception e){
+//            throw new NoSuchFieldException();
+//        }
+//        List<Order> resultList = entityManager.createQuery(query).getResultList();
+//        if (resultList == null || resultList.isEmpty()){
+//            return Collections.emptyList();
+//        }
+//        return resultList;
+//    }
 }

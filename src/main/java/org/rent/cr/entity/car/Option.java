@@ -1,25 +1,26 @@
 package org.rent.cr.entity.car;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
-import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "options")
+@JsonView(View.Public.class)
 public class Option extends GeneralEntity {
-    @Column(name = "optionname")
-    private String name;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable (name="car_option",
             joinColumns=@JoinColumn (name="optionid"),
             inverseJoinColumns=@JoinColumn(name="carid"))
     private List<Car> cars;
+
+    @Column(name = "optionname")
+    private String name;
 
     public Option() {
     }

@@ -1,15 +1,14 @@
 package org.rent.cr.dao.rsql;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.data.jpa.domain.Specification;
-
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.LogicalNode;
 import cz.jirutka.rsql.parser.ast.LogicalOperator;
 import cz.jirutka.rsql.parser.ast.Node;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GenericRsqlSpecBuilder<T> {
 
@@ -49,5 +48,4 @@ public class GenericRsqlSpecBuilder<T> {
     public Specification<T> createSpecification(final ComparisonNode comparisonNode) {
         return Specification.where(new GenericRsqlSpecification<T>(comparisonNode.getSelector(), comparisonNode.getOperator(), comparisonNode.getArguments()));
     }
-
 }

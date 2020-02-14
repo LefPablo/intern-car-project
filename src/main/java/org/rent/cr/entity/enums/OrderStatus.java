@@ -1,8 +1,7 @@
 package org.rent.cr.entity.enums;
 
 public enum OrderStatus {
-    RESERV,
     OPEN,
-    PERFORM,
-    CLOS
+    PERFORM, //this status show, that car now in period of performing order
+    CLOSE
 }

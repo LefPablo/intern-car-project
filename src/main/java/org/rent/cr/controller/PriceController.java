@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("prices")
 public class PriceController extends CrudController<Price, PriceService> {
-    PriceService priceService;
 
     @Autowired
     public PriceController(PriceService service) {
-        super(service, "Price");
-        priceService = service;
+        super(service);
     }
 }

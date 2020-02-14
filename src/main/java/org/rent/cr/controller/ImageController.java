@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("images")
 public class ImageController extends CrudController<Image, ImageService> {
-    ImageService ImageService;
 
     @Autowired
     public ImageController(ImageService service) {
-        super(service, "Image");
-        ImageService = service;
+        super(service);
     }
 }

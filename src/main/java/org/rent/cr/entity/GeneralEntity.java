@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class GeneralEntity {
-    @JsonView({View.IdField.class})
+    @JsonView({View.Public.class})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

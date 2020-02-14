@@ -12,32 +12,35 @@ import java.util.List;
 
 @Entity
 @Table(name = "reservs")
+@JsonView(View.Public.class)
 public class Reservation extends GeneralEntity {
-    @ManyToOne
+    @JsonView(View.Exclude.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carid")
     private Car car;
 
-    @ManyToOne
+    @JsonView(View.Exclude.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emplid")
     private Employee employee;
 
+    @JsonView(View.Exclude.class)
     @ManyToMany
     @JoinTable(name = "reserv_equip",
             joinColumns = @JoinColumn(name = "reservid"),
             inverseJoinColumns = @JoinColumn(name = "equipid"))
     private List<Equipment> equipmentList;
 
+    @JsonView(View.Exclude.class)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderid")
     private Order order;
 
     @Column(name = "reservname")
-    @NotEmpty (message = "Name must be set")
     @NotBlank (message = "Name must be not blank")
     private String name;
 
     @Column(name = "reservphone")
-    @NotEmpty (message = "Phone must be set")
     @NotBlank (message = "Phone must be not blank")
     private String phone;
 

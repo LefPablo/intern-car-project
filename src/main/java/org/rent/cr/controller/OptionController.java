@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("options")
 public class OptionController extends CrudController<Option, OptionService> {
-    private OptionService optionService;
 
     @Autowired
     public OptionController(OptionService service) {
-        super(service, "Option");
-        optionService = service;
+        super(service);
     }
 
 }

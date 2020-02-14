@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/cr")
+@RequestMapping("/guest")
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
 
@@ -45,7 +45,7 @@ public class AuthenticationController {
             if (employee == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             }
-            String token = jwtTokenProvider.createToken(username, employee.getEmplRoles());
+            String token = jwtTokenProvider.createToken(username, employee.getRoles());
 
             Map<Object, Object> response = new HashMap<>();
             response.put("username", username);

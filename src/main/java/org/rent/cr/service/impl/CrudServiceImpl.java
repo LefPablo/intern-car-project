@@ -1,70 +1,48 @@
 package org.rent.cr.service.impl;
 
-import org.rent.cr.dao.JpaRepositoryAndJpaSpecificationExecutor;
-import org.rent.cr.entity.GeneralEntity;
+import com.google.common.reflect.TypeToken;
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.RSQLParserException;
+import cz.jirutka.rsql.parser.ast.Node;
+import org.rent.cr.dao.rsql.CustomRsqlVisitor;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.EntityService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
-import com.google.common.reflect.TypeToken;
+import org.springframework.validation.annotation.Validated;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
-public abstract class CrudServiceImpl<T extends GeneralEntity,R extends JpaRepositoryAndJpaSpecificationExecutor<T,Integer>> implements EntityService<T> {
+public abstract class CrudServiceImpl<E,R extends JpaRepository<E,Integer> & JpaSpecificationExecutor<E>> implements EntityService<E> {
     protected R repository;
     private String entityName;
 
     public CrudServiceImpl(R repository) {
         this.repository = repository;
-        TypeToken<T> type = new TypeToken<T>(getClass()) {};
+        TypeToken<E> type = new TypeToken<E>(getClass()) {};
         entityName = type.getType().getTypeName();
     }
 
-    //Copies properties from one object to another
     @Override
-    public void copyNonNullProperties(Object source, Object destination){
-        BeanUtils.copyProperties(source, destination,
-                getNullPropertyNames(source));
-    }
-
-    //Returns an array of null properties of an object
-    private String[] getNullPropertyNames (Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-        Set emptyNames = new HashSet();
-        for(java.beans.PropertyDescriptor pd : pds) {
-            //check if value of this property is null then add it to the collection
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
-        }
-        emptyNames.add("id"); //always ignore id
-        String[] result = new String[emptyNames.size()];
-        return (String[]) emptyNames.toArray(result);
-    }
-
-    @Override
-    public T findById(int id) throws NoEntityException {
+    public E findById(int id) throws NoEntityException {
         return repository.findById(id).orElseThrow(() -> new NoEntityException(id, entityName));
     }
 
     @Override
-    public List<T> findAll() {
+    public List<E> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Page<T> getPage(int page, int size, String field, String order) {
+    public Page<E> getPage(int page, int size, String field, String order, String filter) {
         page--; // -1 from page because pages starts from 0 but for users more comfortable start from 1
         Sort sort = null;
         if (field != null) {
@@ -78,33 +56,44 @@ public abstract class CrudServiceImpl<T extends GeneralEntity,R extends JpaRepos
         } else {
             sort = Sort.unsorted();
         }
+
         Pageable pageable = PageRequest.of(page,size, sort);
-        Page<T> result = repository.findAll(pageable);
+        Page<E> result = null;
+        if (filter != null) {
+            try {
+                Node rootNode = new RSQLParser().parse(filter);
+                Specification<E> spec = rootNode.accept(new CustomRsqlVisitor<E>());
+                result = repository.findAll(spec ,pageable);
+            } catch (RSQLParserException e) {
+                e.printStackTrace();
+            }
+        } else {
+            result = repository.findAll(pageable);
+//            Page page1 = new PageImpl(repository.findAll(), pageable, repository.findAll().size());
+        }
         return result;
     }
 
-    public Page<T> getPage(int p, int size) {
-        return getPage(p, size, null, null);
+    public Page<E> getPage(int p, int size) {
+        return getPage(p, size, null, null, null);
     }
 
-
     @Override
-    public T save(T entity) throws NotSavedException {
-        T result = repository.save(entity);
-        if (repository.existsById(result.getId())) {
-            return result;
-        } else {
+    public E save(@Validated E entity) throws NotSavedException {
+        E result = repository.save(entity);
+        if (result == null) {
             throw new NotSavedException(entityName);
         }
+        return result;
     }
 
     @Override
-    public T update(T entity) {
+    public E update(E entity) {
         return repository.save(entity);
     }
 
     @Override
-    public void delete(T entity) {
+    public void delete(E entity) {
         repository.delete(entity);
     }
 

@@ -3,6 +3,7 @@ package org.rent.cr.security.jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,9 +17,22 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
 
-    private static final String ADMIN_ENDPOINT = "/employee/**";
-    private static final String EMPLOYEE_ENDPOINT = "/reservations/**";
-    private static final String LOGIN_ENDPOINT = "/cr/login";
+    private static final String LOGIN_ENDPOINT = "/guest/login";
+    private static final String EMPLOYEE_ENDPOINT = "/employees/**";
+    private static final String USER_ENDPOINT = "/users/**";
+    private static final String BRAND_ENDPOINT = "/brands/**";
+    private static final String CAR_ENDPOINT = "/cars/**";
+    private static final String MODEL_ENDPOINT = "/models/**";
+    private static final String COLOR_ENDPOINT = "/colors/**";
+    private static final String OPTION_ENDPOINT = "/options/**";
+    private static final String IMAGE_ENDPOINT = "/images/**";
+    private static final String FINE_ENDPOINT = "/fines/**";
+    private static final String EQUIPMENT_ENDPOINT = "/equipments/**";
+    private static final String PERIOD_ENDPOINT = "/periods/**";
+    private static final String PRICE_ENDPOINT = "/price/**";
+    private static final String CHARACTERISTIC_ENDPOINT = "/characteristics/**";
+    private static final String RESERVATION_ENDPOINT = "/reservations/**";
+    private static final String ORDER_ENDPOINT = "/orders/**";
 
     @Autowired
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
@@ -39,10 +53,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-//                .antMatchers(HttpMethod.POST,ADMIN_ENDPOINT).hasRole("ADMIN")
-//                .antMatchers(HttpMethod.POST,EMPLOYEE_ENDPOINT).hasRole("EMPLOYEE")
-//                .anyRequest().anonymous()
+                .anyRequest().permitAll()
+                //GUEST
+//                .antMatchers(LOGIN_ENDPOINT).permitAll()
+//                .antMatchers(HttpMethod.GET, BRAND_ENDPOINT, CAR_ENDPOINT,
+//                        MODEL_ENDPOINT, COLOR_ENDPOINT, OPTION_ENDPOINT,
+//                        IMAGE_ENDPOINT, FINE_ENDPOINT, EQUIPMENT_ENDPOINT,
+//                        PERIOD_ENDPOINT, PRICE_ENDPOINT, CHARACTERISTIC_ENDPOINT)
+//                .permitAll()
+//                .antMatchers(HttpMethod.POST, RESERVATION_ENDPOINT).permitAll()
+//                //EMPLOYEE
+//                .antMatchers(HttpMethod.GET, RESERVATION_ENDPOINT, ORDER_ENDPOINT).hasRole("EMPLOYEE")
+//                .antMatchers(HttpMethod.POST, ORDER_ENDPOINT).hasRole("EMPLOYEE")
+//                .antMatchers(HttpMethod.PUT, RESERVATION_ENDPOINT, ORDER_ENDPOINT).hasRole("EMPLOYEE")
+//                .antMatchers(HttpMethod.DELETE, ORDER_ENDPOINT).hasRole("EMPLOYEE")
+//                //ADMIN
+//                .antMatchers(EMPLOYEE_ENDPOINT).hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, RESERVATION_ENDPOINT).hasRole("ADMIN")
+//                .antMatchers(HttpMethod.POST,
+//                        USER_ENDPOINT, BRAND_ENDPOINT, CAR_ENDPOINT,
+//                        MODEL_ENDPOINT, COLOR_ENDPOINT, OPTION_ENDPOINT,
+//                        IMAGE_ENDPOINT, FINE_ENDPOINT, EQUIPMENT_ENDPOINT,
+//                        PERIOD_ENDPOINT, PRICE_ENDPOINT, CHARACTERISTIC_ENDPOINT)
+//                .hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PUT,
+//                        USER_ENDPOINT, BRAND_ENDPOINT, CAR_ENDPOINT,
+//                        MODEL_ENDPOINT, COLOR_ENDPOINT, OPTION_ENDPOINT,
+//                        IMAGE_ENDPOINT, FINE_ENDPOINT, EQUIPMENT_ENDPOINT,
+//                        PERIOD_ENDPOINT, PRICE_ENDPOINT, CHARACTERISTIC_ENDPOINT)
+//                .hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE,
+//                        USER_ENDPOINT, BRAND_ENDPOINT, CAR_ENDPOINT,
+//                        MODEL_ENDPOINT, COLOR_ENDPOINT, OPTION_ENDPOINT,
+//                        IMAGE_ENDPOINT, FINE_ENDPOINT, EQUIPMENT_ENDPOINT,
+//                        PERIOD_ENDPOINT, PRICE_ENDPOINT, CHARACTERISTIC_ENDPOINT)
+//                .hasRole("ADMIN")
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

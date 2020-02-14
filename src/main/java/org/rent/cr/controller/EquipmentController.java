@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("equipments")
 public class EquipmentController extends CrudController<Equipment, EquipmentService> {
-    private EquipmentService equipmentService;
 
     @Autowired
     public EquipmentController(EquipmentService service) {
-        super(service, "Equipment");
-        equipmentService = service;
+        super(service);
     }
 
     @Override

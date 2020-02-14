@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("fines")
 public class FineController extends CrudController<Fine, org.rent.cr.service.FineService> {
-    FineService FineService;
 
     @Autowired
     public FineController(FineService service) {
-        super(service, "Fine");
-        FineService = service;
+        super(service);
     }
 }

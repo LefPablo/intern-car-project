@@ -1,7 +1,5 @@
 package org.rent.cr.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.car.Model;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.ModelService;
@@ -13,12 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("models")
 public class ModelController extends CrudController<Model, ModelService> {
-    ModelService ModelService;
 
     @Autowired
     public ModelController(ModelService service) {
-        super(service, "Model");
-        ModelService = service;
+        super(service);
     }
 
     @Override

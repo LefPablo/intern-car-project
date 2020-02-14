@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("color")
+@RequestMapping("colors")
 public class ColorController extends CrudController<Color, ColorService> {
-    private ColorService colorService;
 
     @Autowired
     public ColorController(ColorService service) {
-        super(service, "Color");
-        colorService = service;
+        super(service);
     }
 }

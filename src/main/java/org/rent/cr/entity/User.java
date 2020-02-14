@@ -2,24 +2,30 @@ package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonView(View.Public.class)
 public class User extends GeneralEntity {
+    @JsonIgnore
     @OneToOne (mappedBy="user", fetch = FetchType.LAZY)
     private Employee employee;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 
     @Column (name = "username")
-    @NotEmpty(message = "Name must be set")
+    @NotBlank(message = "Name must be set")
     private String name;
 
     @Column (name = "userage")
@@ -31,7 +37,7 @@ public class User extends GeneralEntity {
     private String passport;
 
     @Column (name = "userphone")
-    @NotEmpty(message = "User phone must be set")
+    @NotBlank(message = "User phone must be set")
     private String phone;
 
     @Column (name = "userdrivexp")

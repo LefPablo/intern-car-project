@@ -1,25 +1,28 @@
 package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
-import org.rent.cr.entity.Period;
+import org.rent.cr.entity.enums.PeriodType;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "prices")
+@JsonView(View.Public.class)
 public class Price extends GeneralEntity {
-    @Column(name = "pricevalue")
-    private Float value;
-
-    @ManyToOne
-    @JoinColumn(name = "periodid")
-    private Period period;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "carid")
     private Car car;
+
+    @Column(name = "pricevalue")
+    private Float value;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priceperiod")
+    private PeriodType periodType;
 
     public Price() {
     }
@@ -32,12 +35,12 @@ public class Price extends GeneralEntity {
         this.value = value;
     }
 
-    public Period getPeriod() {
-        return period;
+    public PeriodType getPeriodType() {
+        return periodType;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
+    public void setPeriodType(PeriodType periodType) {
+        this.periodType = periodType;
     }
 
     public Car getCar() {

@@ -1,6 +1,7 @@
 package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.*;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
@@ -12,36 +13,25 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id")
 @Entity
 @Table(name = "cars")
+@JsonView(View.Public.class)
 public class Car extends GeneralEntity {
     //Join
+    @JsonView(View.Exclude.class)
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Image> images;
 
+    @JsonView(View.Exclude.class)
     @ManyToMany
     @JoinTable (name="car_option",
             joinColumns=@JoinColumn (name="carid"),
             inverseJoinColumns=@JoinColumn(name="optionid"))
     private List<Option> options;
 
+    @JsonView(View.Exclude.class)
     @OneToMany(mappedBy = "car")
     private List<Price> prices;
-
-    @ManyToOne
-    @JoinColumn(name = "brandid")
-    private Brand brand;
-
-    @ManyToOne
-    @JoinColumn(name = "modelid")
-    private Model model;
-
-    @ManyToOne
-    @JoinColumn(name = "colorid")
-    private Color color;
 
     @JsonIgnore
     @OneToMany(mappedBy = "car")
@@ -51,6 +41,13 @@ public class Car extends GeneralEntity {
     @OneToMany(mappedBy = "car")
     private List<Reservation> reservations;
 
+    @ManyToOne
+    @JoinColumn(name = "modelid")
+    private Model model;
+
+    @ManyToOne
+    @JoinColumn(name = "colorid")
+    private Color color;
 
     //Columns
     @Positive
@@ -75,7 +72,6 @@ public class Car extends GeneralEntity {
     @Column(name = "cardescr")
     private String description;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "carstatus")
     private CarStatus carStatus;
@@ -209,14 +205,6 @@ public class Car extends GeneralEntity {
 
     public void setPrices(List<Price> prices) {
         this.prices = prices;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
     }
 
     public Model getModel() {

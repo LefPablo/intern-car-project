@@ -1,9 +1,12 @@
 package org.rent.cr.service.impl;
 
-import org.rent.cr.entity.*;
-import org.rent.cr.exception.NotSavedException;
-import org.rent.cr.exception.NotValidException;
 import org.rent.cr.dao.repo.ReservationRepository;
+import org.rent.cr.entity.Employee;
+import org.rent.cr.entity.Equipment;
+import org.rent.cr.entity.Order;
+import org.rent.cr.entity.Reservation;
+import org.rent.cr.exception.NotSavedException;
+import org.rent.cr.exception.PeriodNotValidException;
 import org.rent.cr.service.EmployeeService;
 import org.rent.cr.service.OrderService;
 import org.rent.cr.service.ReservationService;
@@ -29,7 +32,7 @@ public class ReservationServiceImpl extends CrudServiceImpl<Reservation, Reserva
         this.employeeService = employeeService;
     }
 
-    public Order makeOrder(Reservation reservation) throws NotValidException, NotSavedException {
+    public Order makeOrder(Reservation reservation) throws PeriodNotValidException, NotSavedException {
         Order order = new Order();
         order.setCar(reservation.getCar());
 
@@ -37,7 +40,7 @@ public class ReservationServiceImpl extends CrudServiceImpl<Reservation, Reserva
             order.setStart(reservation.getStart());
             order.setEnd(reservation.getEnd());
         } else {
-            throw new NotValidException("Period is not valid: start date must be early then end date");
+            throw new PeriodNotValidException(order.getStart(), order.getEnd());
         }
 
         //Made this loop because Hibernate throw exception "Found shared references to a collection: org.rent.cr.entity.Order.equipmentList; nested exception is org.hibernate.HibernateException: Found shared references to a collection: org.rent.cr.entity.Order.equipmentList"
@@ -48,7 +51,6 @@ public class ReservationServiceImpl extends CrudServiceImpl<Reservation, Reserva
 
         order.setEquipmentList(equipment);
         order = orderService.save(order); //throw exception if save not success
-//        reservation.setProcessed(true); TODO don't know
         return order;
     }
 

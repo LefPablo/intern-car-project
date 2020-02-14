@@ -1,6 +1,8 @@
 package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EquipStatus;
 
 import javax.persistence.*;
@@ -9,9 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "equips")
+@JsonView(View.Public.class)
 public class Equipment extends GeneralEntity {
-    @OneToMany (mappedBy="equipment", fetch=FetchType.LAZY)
-    private List<Characteristic> characteristics;
+    @ElementCollection
+    @CollectionTable(name = "characts", joinColumns = @JoinColumn(name = "equipid"))
+    @Column(name = "charactname")
+    private List<String> characteristics;
 
     @JsonIgnore
     @ManyToMany
@@ -79,11 +84,11 @@ public class Equipment extends GeneralEntity {
         this.description = descr;
     }
 
-    public List<Characteristic> getCharacteristics() {
+    public List<String> getCharacteristics() {
         return characteristics;
     }
 
-    public void setCharacteristics(List<Characteristic> characteristics) {
+    public void setCharacteristics(List<String> characteristics) {
         this.characteristics = characteristics;
     }
 

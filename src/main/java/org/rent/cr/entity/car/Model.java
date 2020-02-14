@@ -6,18 +6,16 @@ import org.rent.cr.entity.GeneralEntity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "models")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@JsonView(View.Public.class)
 public class Model extends GeneralEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "model")
     private List<Car> cars;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "brandid")
     private Brand brand;

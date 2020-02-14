@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rent.cr.entity.Equipment;
+import org.rent.cr.exception.IllegalActionException;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class EntityServiceTest {
     }
 
     @Test
-    public void save() throws NotSavedException {
+    public void save() throws NotSavedException, IllegalActionException {
         Equipment equipment = new Equipment();
         equipment.setName("Baby chair");
         equipment.setPrice(10.20F);

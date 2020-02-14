@@ -1,7 +1,7 @@
 package org.rent.cr.security.jwt;
 
-import org.rent.cr.entity.EmplRole;
 import org.rent.cr.entity.Employee;
+import org.rent.cr.entity.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -16,15 +16,15 @@ public final class JwtUserFactory {
         return new JwtUser(
                 employee.getEmail(),
                 employee.getPassword(),
-                true,
-                mapToGrantedAuthority(employee.getEmplRoles())
+                employee.getEnabled(),
+                mapToGrantedAuthority(employee.getRoles())
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthority(List<EmplRole> userRoles) {
+    private static List<GrantedAuthority> mapToGrantedAuthority(List<Role> userRoles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (EmplRole role : userRoles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
+        for (Role role : userRoles) {
+            authorities.add(new SimpleGrantedAuthority(role.name()));
         }
         return authorities;
     }
