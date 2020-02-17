@@ -7,7 +7,7 @@ import cz.jirutka.rsql.parser.ast.Node;
 import org.rent.cr.dao.rsql.CustomRsqlVisitor;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.service.CrudService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 @Transactional
-public abstract class CrudServiceImpl<E,R extends JpaRepository<E,Integer> & JpaSpecificationExecutor<E>> implements EntityService<E> {
+public abstract class CrudServiceImpl<E,R extends JpaRepository<E,Integer> & JpaSpecificationExecutor<E>> implements CrudService<E> {
     protected R repository;
     private String entityName;
 
@@ -69,7 +69,6 @@ public abstract class CrudServiceImpl<E,R extends JpaRepository<E,Integer> & Jpa
             }
         } else {
             result = repository.findAll(pageable);
-//            Page page1 = new PageImpl(repository.findAll(), pageable, repository.findAll().size());
         }
         return result;
     }
@@ -98,12 +97,9 @@ public abstract class CrudServiceImpl<E,R extends JpaRepository<E,Integer> & Jpa
     }
 
     @Override
-    public void deleteAll() {
+    public long deleteAll() {
+        long count = repository.count();
         repository.deleteAll();
-    }
-
-    @Override
-    public void deleteById(int id) throws NoEntityException {
-        repository.delete(this.findById(id));
+        return count;
     }
 }

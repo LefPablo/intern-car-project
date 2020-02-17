@@ -2,6 +2,7 @@ package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EquipStatus;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "equips")
 @JsonView(View.Public.class)
@@ -48,71 +50,4 @@ public class Equipment extends GeneralEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "equipstatus")
     private EquipStatus status;
-
-    public Equipment() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String descr) {
-        this.description = descr;
-    }
-
-    public List<String> getCharacteristics() {
-        return characteristics;
-    }
-
-    public void setCharacteristics(List<String> characteristics) {
-        this.characteristics = characteristics;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public EquipStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EquipStatus status) {
-        this.status = status;
-    }
 }

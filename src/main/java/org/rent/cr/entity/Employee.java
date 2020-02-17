@@ -2,6 +2,8 @@ package org.rent.cr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EmplStatus;
 import org.rent.cr.entity.enums.Role;
@@ -11,6 +13,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Data
 @Entity
 @Table (name = "empls")
 @JsonView(View.Public.class)
@@ -57,87 +60,4 @@ public class Employee extends GeneralEntity {
 
     @Column(name = "emplenabled")
     private Boolean enabled = false;
-
-    public Employee() {
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public EmplStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EmplStatus status) {
-        this.status = status;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public LocalDate getGotjob() {
-        return gotjob;
-    }
-
-    public void setGotjob(LocalDate gotjob) {
-        this.gotjob = gotjob;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> emplRoles) {
-        this.roles = emplRoles;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
 }

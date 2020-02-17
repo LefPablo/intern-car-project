@@ -1,13 +1,13 @@
 package org.rent.cr.controller;
 
 import com.google.common.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
+import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.exception.IllegalActionException;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.exception.NotSavedException;
-import org.rent.cr.service.EntityService;
+import org.rent.cr.service.CrudService;
 import org.rent.cr.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 @CrossOrigin
-public abstract class CrudController<E, S extends EntityService> {
+public abstract class CrudController<E extends GeneralEntity, S extends CrudService> {
     protected S service;
     private String entityName;
 
     @Autowired
     Validator validator;
-
-    private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     public CrudController(S service) {
         this.service = service;
@@ -61,7 +60,7 @@ public abstract class CrudController<E, S extends EntityService> {
     @PostMapping
     public Object save(@RequestBody E entity) throws NotSavedException, IllegalActionException, NoEntityException {
         entity = (E) service.save(entity);
-        logger.info(entityName + " added");
+        log.info(entityName + " added {id=" + entity.getId() + "}");
         return entity;
     }
 
@@ -75,22 +74,22 @@ public abstract class CrudController<E, S extends EntityService> {
         }
 
         entity = (E) service.update(entityFromDb);
-        logger.info(entityName + " updated");
+        log.info(entityName + " updated {id=" + entity.getId() + "}");
         return entity;
     }
 
     @DeleteMapping("deleteAll")
     public void deleteAll() {
-        service.deleteAll();
-        logger.info(entityName + " all records deleted");
+        long count = service.deleteAll();
+        log.info(entityName + " all records deleted {count=" + count + "}");
     }
 
     @DeleteMapping("{id}")
     public Object delete(@PathVariable("id") E entity) throws NoEntityException {
         service.delete(entity);
         Map<String, String> responseMap = new HashMap<>();
-        responseMap.put("message", entityName + " was deleted");
-        logger.info(entityName + " deleted");
+        responseMap.put("message", entityName + " was deleted {id=" + entity.getId() + "}");
+        log.info(entityName + " deleted");
         return responseMap;
     }
 }

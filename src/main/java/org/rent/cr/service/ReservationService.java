@@ -6,7 +6,7 @@ import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.exception.NotUpdatedException;
 import org.rent.cr.exception.PeriodNotValidException;
 
-public interface ReservationService extends EntityService<Reservation> {
+public interface ReservationService extends CrudService<Reservation> {
     Order makeOrder(Reservation reservation) throws PeriodNotValidException, NotSavedException;
     void setEmployeeFromAuthentication(Reservation reservation) throws NotUpdatedException;
 }

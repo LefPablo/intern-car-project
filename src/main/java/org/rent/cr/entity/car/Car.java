@@ -1,6 +1,7 @@
 package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.Data;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.Order;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "cars")
 @JsonView(View.Public.class)
@@ -91,151 +93,4 @@ public class Car extends GeneralEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "carclass")
     private CarClass carClass;
-
-    public Car() {
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public Integer getDoors() {
-        return doors;
-    }
-
-    public void setDoors(Integer doors) {
-        this.doors = doors;
-    }
-
-    public Integer getTrunk() {
-        return trunk;
-    }
-
-    public void setTrunk(Integer trunk) {
-        this.trunk = trunk;
-    }
-
-    public Integer getPassengers() {
-        return passengers;
-    }
-
-    public void setPassengers(Integer passengers) {
-        this.passengers = passengers;
-    }
-
-    public String getConsumption() {
-        return consumption;
-    }
-
-    public void setConsumption(String consumption) {
-        this.consumption = consumption;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String descr) {
-        this.description = descr;
-    }
-
-    public CarStatus getCarStatus() {
-        return carStatus;
-    }
-
-    public void setCarStatus(CarStatus carStatus) {
-        this.carStatus = carStatus;
-    }
-
-    public Body getBody() {
-        return body;
-    }
-
-    public void setBody(Body body) {
-        this.body = body;
-    }
-
-    public Transmission getTransmission() {
-        return transmission;
-    }
-
-    public void setTransmission(Transmission transmission) {
-        this.transmission = transmission;
-    }
-
-    public Fuel getFuel() {
-        return fuel;
-    }
-
-    public void setFuel(Fuel fuel) {
-        this.fuel = fuel;
-    }
-
-    public CarClass getCarClass() {
-        return carClass;
-    }
-
-    public void setCarClass(CarClass carClass) {
-        this.carClass = carClass;
-    }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
-
-    public List<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<Option> options) {
-        this.options = options;
-    }
-
-    public List<Price> getPrices() {
-        return prices;
-    }
-
-    public void setPrices(List<Price> prices) {
-        this.prices = prices;
-    }
-
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
 }

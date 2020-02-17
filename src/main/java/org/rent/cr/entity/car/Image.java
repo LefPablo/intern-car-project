@@ -2,12 +2,14 @@ package org.rent.cr.entity.car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.car.Car;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "images")
 @JsonView(View.Public.class)
@@ -22,31 +24,4 @@ public class Image extends GeneralEntity {
 
     @Column(name = "imagepos")
     private Integer position;
-
-    public Image() {
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 }

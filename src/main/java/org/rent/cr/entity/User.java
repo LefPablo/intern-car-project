@@ -3,6 +3,7 @@ package org.rent.cr.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
 import org.rent.cr.dto.view.View;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "users")
 @JsonView(View.Public.class)
@@ -50,79 +52,4 @@ public class User extends GeneralEntity {
     @Column (name = "useremail")
     @Email(message = "Email is not correct")
     private String email;
-
-    public User() {
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Integer getDrivexp() {
-        return drivexp;
-    }
-
-    public void setDrivexp(Integer drivexp) {
-        this.drivexp = drivexp;
-    }
-
-    public String getDrivlic() {
-        return drivlic;
-    }
-
-    public void setDrivlic(String drivlic) {
-        this.drivlic = drivlic;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

@@ -20,7 +20,7 @@ import javax.servlet.ServletContext;
 @SpringBootTest
 @Transactional
 @TestPropertySource("/application-test.properties")
-public class EntityServiceTest {
+public class CrudServiceTest {
 
     @Autowired
     private EquipmentService entityService;

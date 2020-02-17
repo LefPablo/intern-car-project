@@ -22,35 +22,34 @@ import java.util.List;
 @Service
 @Transactional
 public class ReservationServiceImpl extends CrudServiceImpl<Reservation, ReservationRepository> implements ReservationService {
-    private OrderService orderService;
-    private EmployeeService employeeService;
 
     @Autowired
-    public ReservationServiceImpl(ReservationRepository reservationRepository, OrderService orderService, EmployeeService employeeService) {
+    OrderService orderService;
+
+    @Autowired
+    EmployeeService employeeService;
+
+    @Autowired
+    public ReservationServiceImpl(ReservationRepository reservationRepository) {
         super(reservationRepository);
-        this.orderService = orderService;
-        this.employeeService = employeeService;
     }
 
     public Order makeOrder(Reservation reservation) throws PeriodNotValidException, NotSavedException {
         Order order = new Order();
         order.setCar(reservation.getCar());
 
-        if (reservation.getStart().isBefore(reservation.getEnd())) { //TODO make general method for validate period
+        if (reservation.getStart().isBefore(reservation.getEnd())) {
             order.setStart(reservation.getStart());
             order.setEnd(reservation.getEnd());
         } else {
-            throw new PeriodNotValidException(order.getStart(), order.getEnd());
+            throw new PeriodNotValidException(reservation.getStart(), reservation.getEnd());
         }
 
-        //Made this loop because Hibernate throw exception "Found shared references to a collection: org.rent.cr.entity.Order.equipmentList; nested exception is org.hibernate.HibernateException: Found shared references to a collection: org.rent.cr.entity.Order.equipmentList"
         List<Equipment> equipment = new ArrayList<>();
-        for (Equipment equip : reservation.getEquipmentList()) {
-            equipment.add(equip);
-        }
+        equipment.addAll(reservation.getEquipmentList());
 
         order.setEquipmentList(equipment);
-        order = orderService.save(order); //throw exception if save not success
+        order = orderService.save(order);
         return order;
     }
 

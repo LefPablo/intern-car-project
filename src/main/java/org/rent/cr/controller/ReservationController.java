@@ -1,5 +1,6 @@
 package org.rent.cr.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.rent.cr.entity.Order;
 import org.rent.cr.entity.Reservation;
 import org.rent.cr.exception.*;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("reservations")
 public class ReservationController extends CrudController<Reservation, ReservationService> {
-    private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     @Autowired
     public ReservationController(ReservationService service) {
@@ -34,7 +35,9 @@ public class ReservationController extends CrudController<Reservation, Reservati
 
     @PostMapping("{id}/order")
     public Order makeOrder(@PathVariable("id") Reservation reservation) throws PeriodNotValidException, NotSavedException {
-        return service.makeOrder(reservation);
+        Order order = service.makeOrder(reservation);
+        log.info("Order by reservation is created. {id=" + order.getId() + "}");
+        return order;
     }
 }
 
