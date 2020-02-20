@@ -49,23 +49,5 @@ public class RsqlTest {
         Node rootNode = new RSQLParser().parse("price=='26.6'");
         Specification<Order> spec = rootNode.accept(new CustomRsqlVisitor<Order>());
         List<Order> results = orderRepository.findAll(spec);
-        System.out.println();
     }
-
-//    public List<Order> searchByQuery(String queryString) throws NoSuchFieldException {
-//        RSQLVisitor<CriteriaQuery<Order>, EntityManager> visitor = new JpaCriteriaQueryVisitor<>();
-//        Node rootNode;
-//        CriteriaQuery<Order> query;
-//        try {
-//            rootNode = new RSQLParser().parse(queryString);
-//            query = rootNode.accept(visitor, entityManager);
-//        }catch (Exception e){
-//            throw new NoSuchFieldException();
-//        }
-//        List<Order> resultList = entityManager.createQuery(query).getResultList();
-//        if (resultList == null || resultList.isEmpty()){
-//            return Collections.emptyList();
-//        }
-//        return resultList;
-//    }
 }

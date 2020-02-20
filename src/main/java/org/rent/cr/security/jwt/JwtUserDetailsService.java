@@ -1,8 +1,6 @@
-package org.rent.cr.security;
+package org.rent.cr.security.jwt;
 
 import org.rent.cr.entity.Employee;
-import org.rent.cr.security.jwt.JwtUser;
-import org.rent.cr.security.jwt.JwtUserFactory;
 import org.rent.cr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +18,10 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         Employee employee = employeeService.findByEmail(username);
         if (employee == null) {
-            throw new UsernameNotFoundException(("Employee with username: " + username + " not found"));
+            throw new UsernameNotFoundException("Employee with username: " + username + " not found");
         }
         JwtUser jwtUser = JwtUserFactory.create(employee);
 

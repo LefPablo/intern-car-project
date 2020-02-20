@@ -8,6 +8,7 @@ import org.rent.cr.entity.car.Option;
 import org.rent.cr.entity.car.Price;
 import org.rent.cr.exception.NoEntityException;
 import org.rent.cr.service.CarService;
+import org.rent.cr.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,31 +35,10 @@ public class CarController extends CrudController<Car, CarService> {
         return ((Car) super.findById(id)).getOrders();
     }
 
-
     @GetMapping("{id}/closestOrder")
     public Order findByIdClosestOrder(@PathVariable("id") int id, @RequestParam(name = "dateTime", required = false) String dateTime, @RequestParam(name = "isCross", defaultValue = "true",required = false) boolean isCrossDateTime) throws NoEntityException {
-        LocalDateTime time;
-        if (dateTime == null) {
-            time = LocalDateTime.now();
-        } else {
-            time = LocalDateTime.parse(dateTime);
-        }
+        LocalDateTime time = EntityUtils.parseTimeToLocalDateTime(dateTime);
         return service.getClosestOrder(service.findById(id), time, isCrossDateTime);
-    }
-
-    @GetMapping("period")
-    public List<Car> findCarsForPeriod(@RequestParam(name = "startDate", required = false) String startDate, @RequestParam(name = "endDate", required = false) String endDate) {
-        LocalDateTime start;
-        LocalDateTime end;
-        if (startDate == null) {
-            start = LocalDateTime.now();
-        } else {
-            start = LocalDateTime.parse(startDate);
-        }
-        if (endDate == null) {
-            end = LocalDateTime.parse(endDate);
-        }
-        return null;
     }
 
     @GetMapping("{id}/reservations")

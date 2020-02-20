@@ -39,8 +39,8 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
         try {
             String username = requestDto.getUsername();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
             Employee employee = employeeService.findByEmail(username);
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
 
             if (employee == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");

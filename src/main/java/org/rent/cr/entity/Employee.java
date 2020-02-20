@@ -3,13 +3,15 @@ package org.rent.cr.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.enums.EmplStatus;
 import org.rent.cr.entity.enums.Role;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class Employee extends GeneralEntity {
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "emplid"))
     @Enumerated(EnumType.STRING)
     @Column(name = "rolename")
@@ -60,4 +62,9 @@ public class Employee extends GeneralEntity {
 
     @Column(name = "emplenabled")
     private Boolean enabled = false;
+
+    @JsonView(View.Exclude.class)
+    public String getPassword() {
+        return password;
+    }
 }

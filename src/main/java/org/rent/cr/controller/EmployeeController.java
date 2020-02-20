@@ -6,6 +6,7 @@ import org.rent.cr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +25,10 @@ public class EmployeeController extends CrudController<Employee, EmployeeService
     @Override
     public Object findById(@PathVariable("id") int id) throws NoEntityException {
         return super.findById(id);
+    }
+
+    @Override
+    public Object update(@PathVariable("id") Employee entityFromDb, @RequestBody Employee entity) {
+        return super.update(entityFromDb, entity);
     }
 }

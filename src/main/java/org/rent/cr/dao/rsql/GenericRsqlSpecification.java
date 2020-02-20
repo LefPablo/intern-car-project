@@ -2,13 +2,9 @@ package org.rent.cr.dao.rsql;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import org.rent.cr.dao.repo.car.CarRepository;
-import org.rent.cr.entity.User;
-import org.rent.cr.entity.car.Car;
-import org.rent.cr.entity.car.Color;
-import org.rent.cr.entity.car.Model;
-import org.rent.cr.entity.car.Option;
-import org.rent.cr.service.CarService;
-import org.rent.cr.service.impl.car.CarServiceImpl;
+import org.rent.cr.entity.Employee;
+import org.rent.cr.entity.car.*;
+import org.rent.cr.util.EntityUtils;
 import org.rent.cr.util.SpringContext;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -16,7 +12,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,15 +35,24 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
         checkField(root);
         final List<Object> args = castArguments(root);
         final Object argument = args.get(0);
-        final Class<? extends Object> type = root.get(property).getJavaType();
+        Class<? extends Object> type = null;
         final Class<? extends Object> modalType = root.getModel().getJavaType();
+        try {
+            type = root.get(property).getJavaType();
+        } catch (Exception e) {
+            if (modalType.equals(Car.class)) {
+                if (property.contentEquals("brand")) {
+                    type = Brand.class;
+                }
+            }
+        }
+
 
         CarRepository carRepository = SpringContext.getBean(CarRepository.class);
-
         switch (RsqlSearchOperation.getSimpleOperator(operator)) {
             case EQUAL: {
                 if (type.equals(String.class)) {
-                    return builder.like(root.get(property), argument.toString().replace('*', '%'));
+                    return builder.like(builder.lower(root.get(property)), argument.toString().replace('*', '%').toLowerCase());
 
                 } else if (type.equals(LocalDateTime.class)) {
                     return builder.equal(root.get(property), (LocalDateTime) argument);
@@ -60,8 +67,13 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                     return builder.equal(root.get(property).get("name"), argument);
 
                 } else if (type.equals(List.class)) {
-                    return builder.equal(root.join(property).get("name"), argument);
+                    return builder.equal(builder.lower(root.get(property).get("name")), argument.toString().toLowerCase());
 
+                }else if (modalType.equals(Car.class)) {
+                    if (type.equals(Brand.class)) {
+                        return builder.equal(builder.lower(root.get("model").get("brand").get("name")), argument.toString().toLowerCase());
+                    }
+                    return builder.equal(root.<Float>get(property), argument);
                 } else if (argument == null) {
                     return builder.isNull(root.get(property));
 
@@ -71,7 +83,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
             }
             case NOT_EQUAL: {
                 if (type.equals(String.class)) {
-                    return builder.notLike(root.get(property), argument.toString().replace('*', '%'));
+                    return builder.notLike(builder.lower(root.get(property)), argument.toString().replace('*', '%').toLowerCase());
 
                 } else if (type.equals(LocalDateTime.class)) {
                     return builder.notEqual(root.get(property), (LocalDateTime) argument);
@@ -89,7 +101,12 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                     return builder.notEqual(root.join(property).get("name"), argument);
 
                 } else if (type.equals(List.class)) {
-                    return builder.equal(root.join(property).get("name"), argument);
+                    if (modalType.equals(Car.class)) {
+                        if (type.equals(Brand.class)) {
+                            return builder.notEqual(builder.lower(root.get("model").get("brand").get("name")), argument.toString().toLowerCase());
+                        }
+                    }
+                    return builder.notEqual(builder.lower(root.get(property).get("name")), argument.toString().toLowerCase());
 
                 } else if (argument == null) {
                     return builder.isNull(root.get(property));
@@ -117,12 +134,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                     return builder.lessThan(root.get(property), (LocalDateTime) argument);
                 } else if (type.equals(List.class)) {
                     if (modalType.equals(Car.class))
-                    try {
-                        query.distinct(true);
                         return builder.not(root.get("id").in(carRepository.getCarIdFromDate((LocalDateTime) argument)));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     return null;
                 } else {
                     return builder.lessThan(root.get(property), argument.toString());
@@ -135,7 +147,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                     return builder.lessThanOrEqualTo(root.get(property), argument.toString());
                 }
             }
-            case IN:
+            case IN: {
                 if (type.equals(Model.class)) {
                     return root.get(property).get("name").in(args);
                 } else if (type.equals(List.class)) {
@@ -143,7 +155,8 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                 } else {
                     return root.get(property).in(args);
                 }
-            case NOT_IN:
+            }
+            case NOT_IN: {
                 if (type.equals(Model.class)) {
                     return builder.not(root.get(property).get("name").in(args));
                 } else if (type.equals(List.class)) {
@@ -151,6 +164,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                 } else {
                     return builder.not(root.get(property).in(args));
                 }
+            }
         }
         return null;
     }
@@ -159,46 +173,48 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     //for blocking some fields of filter
     private void checkField(final Root<T> root) throws IllegalArgumentException {
         final Class<? extends Object> type = root.getModel().getJavaType();
-        if (type.equals(User.class)) {
+        if (type.equals(Employee.class)) {
             if (property.equals("password")) {
-                throw new IllegalArgumentException("Unable to filter Attribute  with the the given name [" + property + "] on this ManagedType [" + type.getName() + "]");
+                throw new IllegalArgumentException("Denied access for this field");
             }
         }
     }
 
     private List<Object> castArguments(final Root<T> root) {
+        try {
+            Class<? extends Object> type = root.get(property).getJavaType();
 
-        final Class<? extends Object> type = root.get(property).getJavaType();
-
-        final List<Object> args = arguments.stream().map(arg -> {
-            if (type.equals(Integer.class)) {
-                return Integer.parseInt(arg);
-            } else if (type.equals(Long.class)) {
-                return Long.parseLong(arg);
-            } else if (type.equals(Float.class)) {
-                return Float.parseFloat(arg);
-            } else if (type.equals(LocalDateTime.class)) {
-                return LocalDateTime.parse(arg);
-            } else if (type.isEnum()) {
-                Object[] enums = type.getEnumConstants();
-                for (Object enumerate : enums) {
-                    if (((Enum) enumerate).name().equals(arg)) {
-                        return ((Enum) enumerate);
+            final List<Object> args = arguments.stream().map(arg -> {
+                if (type.equals(Integer.class)) {
+                    return Integer.parseInt(arg);
+                } else if (type.equals(Long.class)) {
+                    return Long.parseLong(arg);
+                } else if (type.equals(Float.class)) {
+                    return Float.parseFloat(arg);
+                } else if (type.equals(LocalDateTime.class)) {
+                    return EntityUtils.parseTimeToLocalDateTime(arg);
+                } else if (type.isEnum()) {
+                    Object[] enums = type.getEnumConstants();
+                    for (Object enumerate : enums) {
+                        if (((Enum) enumerate).name().equals(arg)) {
+                            return ((Enum) enumerate);
+                        }
                     }
-                }
-                return null;
-            } else if (type.equals(List.class)) {
-                if (property.contentEquals("orders")){
-                    return LocalDateTime.parse(arg);
+                    return null;
+                } else if (type.equals(List.class)) {
+                    if (property.contentEquals("orders")) {
+                        return EntityUtils.parseTimeToLocalDateTime(arg);
+                    } else {
+                        return arg;
+                    }
                 } else {
                     return arg;
                 }
-            } else {
-                return arg;
-            }
-        }).collect(Collectors.toList());
-
-        return args;
+            }).collect(Collectors.toList());
+            return args;
+        } catch (Exception e) {
+            return new ArrayList<>(arguments);
+        }
     }
 
 }

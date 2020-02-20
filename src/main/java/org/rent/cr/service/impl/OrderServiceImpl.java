@@ -21,19 +21,20 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderServiceImpl extends CrudServiceImpl<Order, OrderRepository> implements OrderService {
+    @Autowired
     private CarService carService;
+
+    @Autowired
     private EmployeeService employeeService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, CarService carService, EmployeeService employeeService) {
+    public OrderServiceImpl(OrderRepository orderRepository) {
         super(orderRepository);
-        this.carService = carService;
-        this.employeeService = employeeService;
     }
 
     @Override
-    public Order update(Order order) {
-        Order result = super.update(order);
+    public Order update(Order order, Order source) {
+        Order result = super.update(order, source);
         carService.resolveCarStatus(order.getCar());
         return result;
     }

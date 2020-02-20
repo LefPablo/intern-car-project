@@ -1,5 +1,6 @@
 package org.rent.cr.security.jwt;
 
+import org.rent.cr.exception.handler.CustomRestExceptionHandler;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends GenericFilterBean {
     private JwtTokenProvider jwtTokenProvider;
 
+    CustomRestExceptionHandler customRestExceptionHandler;
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }

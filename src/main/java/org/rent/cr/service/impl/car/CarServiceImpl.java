@@ -38,22 +38,20 @@ public class CarServiceImpl extends CrudServiceImpl<Car, CarRepository> implemen
         }
     }
 
+    //return order that cross specific date or that are after this date
     @Override
     public Order getClosestOrder(Car car, LocalDateTime dateTime, boolean isCrossDateTime) {
         List<Order> orders = car.getOrders();
 
-        orders.sort(new Comparator<Order>() {
-            @Override
-            public int compare(Order o1, Order o2) {
-                if (o1.getStart() != null && o2.getStart() != null) {
-                    return o1.getStart().compareTo(o2.getStart());
-                } else if (o1.getStart() == null && o2.getStart() != null) {
-                    return -1;
-                } else if (o1.getStart() != null && o2.getStart() == null) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+        orders.sort((o1, o2) -> {
+            if (o1.getStart() != null && o2.getStart() != null) {
+                return o1.getStart().compareTo(o2.getStart());
+            } else if (o1.getStart() == null && o2.getStart() != null) {
+                return -1;
+            } else if (o1.getStart() != null && o2.getStart() == null) {
+                return 1;
+            } else {
+                return 0;
             }
         });
 

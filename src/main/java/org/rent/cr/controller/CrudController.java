@@ -1,7 +1,9 @@
 package org.rent.cr.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.exception.IllegalActionException;
 import org.rent.cr.exception.NoEntityException;
@@ -32,11 +34,13 @@ public abstract class CrudController<E extends GeneralEntity, S extends CrudServ
         this.entityName = type.getType().getTypeName();
     }
 
+    @JsonView(View.Public.class)
     @GetMapping("all")
     public Object findAll() {
         return service.findAll();
     }
 
+    @JsonView(View.Public.class)
     @GetMapping
     public Object getPage(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "per_page", defaultValue = "20") Integer size, @RequestParam(name = "sort", required = false) String field, @RequestParam(name = "filter", required = false) String filter) {
         String order = null;
@@ -51,12 +55,14 @@ public abstract class CrudController<E extends GeneralEntity, S extends CrudServ
         return result;
     }
 
+    @JsonView(View.Private.class)
     @GetMapping("{id}")
     public Object findById(@PathVariable("id") int id) throws NoEntityException {
         E entity = (E) service.findById(id);
         return entity;
     }
 
+    @JsonView(View.Private.class)
     @PostMapping
     public Object save(@RequestBody E entity) throws NotSavedException, IllegalActionException, NoEntityException {
         entity = (E) service.save(entity);
@@ -64,24 +70,21 @@ public abstract class CrudController<E extends GeneralEntity, S extends CrudServ
         return entity;
     }
 
+    @JsonView(View.Private.class)
     @PutMapping("{id}")
     public Object update(@PathVariable("id") E entityFromDb, @RequestBody E entity) {
-        EntityUtils.copyNonNullProperties(entity, entityFromDb);
-
-        Set<ConstraintViolation<E>> constraintViolations = validator.validate(entityFromDb);
-        if (!constraintViolations.isEmpty()) {
-            throw new ConstraintViolationException(constraintViolations);
-        }
-
-        entity = (E) service.update(entityFromDb);
+        entity = (E) service.update(entityFromDb, entity);
         log.info(entityName + " updated {id=" + entity.getId() + "}");
         return entity;
     }
 
     @DeleteMapping("deleteAll")
-    public void deleteAll() {
+    public Object deleteAll() {
         long count = service.deleteAll();
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("message", entityName + " all records deleted {count=" + count + "}");
         log.info(entityName + " all records deleted {count=" + count + "}");
+        return responseMap;
     }
 
     @DeleteMapping("{id}")

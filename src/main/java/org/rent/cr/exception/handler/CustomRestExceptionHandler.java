@@ -1,24 +1,24 @@
-package org.rent.cr.exception.handlers;
+package org.rent.cr.exception.handler;
 
-import netscape.security.ForbiddenTargetException;
+import cz.jirutka.rsql.parser.RSQLParserException;
 import org.rent.cr.exception.IllegalActionException;
-import org.rent.cr.exception.JwtAuthenticationException;
 import org.rent.cr.exception.PeriodNotValidException;
+import org.rent.cr.exception.RsqlIllegalFilterException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -29,8 +29,8 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Order(Ordered.HIGHEST_PRECEDENCE)
-//@ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
+@RestControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -65,7 +65,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ ConstraintViolationException.class })
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(
             ConstraintViolationException ex, WebRequest request) {
         List<String> errors = new ArrayList<String>();
@@ -80,7 +80,19 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<Object> handleUsernameNotFound(
+            UsernameNotFoundException ex, WebRequest request) {
+        String error =
+                "Not found employee with this email";
+
+        ApiError apiError =
+                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        return new ResponseEntity<Object>(
+                apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex, WebRequest request) {
         String error =
@@ -132,7 +144,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ PeriodNotValidException.class })
+    @ExceptionHandler({PeriodNotValidException.class})
     public ResponseEntity<Object> handlePeriodValidationException(PeriodNotValidException ex, WebRequest request) {
         String error = "This time period is invalid. [Start date] must be early then [End date]";
 
@@ -142,7 +154,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ IllegalActionException.class })
+    @ExceptionHandler({IllegalActionException.class})
     public ResponseEntity<Object> handlePeriodValidationException(IllegalActionException ex, WebRequest request) {
         String error = "This action is not valid. Read documentation for more information.";
 
@@ -152,46 +164,32 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ JwtAuthenticationException.class })
-    public ResponseEntity<Object> handleJwtAuthentication(JwtAuthenticationException ex, WebRequest request) {
-        String error = "Login to generate correct Jwt token";
-
-        ApiError apiError = new ApiError(
-                HttpStatus.CONFLICT, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    //TODO This Exceptions not match with throws by security
-
-    @ExceptionHandler({ AccessDeniedException.class })
-    public ResponseEntity<Object> handleAccessDeniedException(
-            AccessDeniedException ex, WebRequest request) {
-        String error = "Login to generate correct Jwt token";
-
-        ApiError apiError = new ApiError(
-                HttpStatus.CONFLICT, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), HttpStatus.FORBIDDEN);
-    }
-
-    //TODO This Exceptions not match with throws by security
-
-    @ExceptionHandler({ ForbiddenTargetException.class })
-    public ResponseEntity<Object> handleAccessDeniedException(
-            ForbiddenTargetException ex, WebRequest request) {
-        String error = "Not correct credentials";
-
-        ApiError apiError = new ApiError(
-                HttpStatus.CONFLICT, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler({ BadCredentialsException.class })
+    @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<Object> handleDeniedException(
             BadCredentialsException ex, WebRequest request) {
         String error = "Access denied message here";
+
+        ApiError apiError = new ApiError(
+                HttpStatus.CONFLICT, ex.getLocalizedMessage(), error);
+        return new ResponseEntity<Object>(
+                apiError, new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({RsqlIllegalFilterException.class})
+    public ResponseEntity<Object> handleDeniedException(
+            RsqlIllegalFilterException ex, WebRequest request) {
+        String error = "Non corresponding operator or unsupported type";
+
+        ApiError apiError = new ApiError(
+                HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        return new ResponseEntity<Object>(
+                apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ RSQLParserException.class })
+    public ResponseEntity<Object> handleRsqlParserException(
+            RSQLParserException ex, WebRequest request) {
+        String error = "Incorrect filter string. (Learn RSQL syntax for writing correct filter)";
 
         ApiError apiError = new ApiError(
                 HttpStatus.CONFLICT, ex.getLocalizedMessage(), error);
@@ -206,4 +204,5 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
+
 }

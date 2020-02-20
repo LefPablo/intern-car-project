@@ -32,15 +32,15 @@ public class Car extends GeneralEntity {
     private List<Option> options;
 
     @JsonView(View.Exclude.class)
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Price> prices;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
     @ManyToOne

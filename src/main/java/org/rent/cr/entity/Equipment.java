@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "equips")
 @JsonView(View.Public.class)
 public class Equipment extends GeneralEntity {
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "characts", joinColumns = @JoinColumn(name = "equipid"))
     @Column(name = "charactname")
     private List<String> characteristics;

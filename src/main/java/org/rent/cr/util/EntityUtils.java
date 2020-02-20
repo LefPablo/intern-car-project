@@ -1,11 +1,12 @@
 package org.rent.cr.util;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,9 +40,9 @@ public class EntityUtils {
         if (startOfFirst == null || endOfFirst == null || startOfSecond == null || endOfSecond == null) {
             return false;
         }
-        if (startOfSecond.isAfter(endOfFirst)) {
+        if (startOfSecond.isAfter(endOfFirst) || startOfSecond.isEqual(endOfFirst)) {
             return false;
-        } else if (endOfSecond.isBefore(startOfFirst)) {
+        } else if (endOfSecond.isBefore(startOfFirst) || endOfSecond.isEqual(startOfFirst)) {
             return false;
         } else {
             return true;
@@ -49,14 +50,35 @@ public class EntityUtils {
     }
 
     //if one of time is null then return false - 'period not cross current time'
-    public boolean periodIsCrossCurrentTime(LocalDateTime start ,LocalDateTime end) {
+    public boolean periodIsCrossCurrentTime(LocalDateTime start ,LocalDateTime end, LocalDateTime time) {
         if (start == null || end == null) {
             return false;
         }
-        if (start.isBefore(LocalDateTime.now()) && end.isAfter(LocalDateTime.now())) {
+        if (start.isBefore(LocalDateTime.now()) && end.isAfter(time)) {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public boolean periodIsCrossCurrentTime(LocalDateTime start ,LocalDateTime end) {
+        return periodIsCrossCurrentTime(start, end, LocalDateTime.now());
+    }
+
+    public LocalDateTime parseTimeToLocalDateTime(String time) {
+        LocalDateTime dateTime = null;
+        try {
+            dateTime = LocalDateTime.parse(time);
+        } finally {
+            try {
+                dateTime = LocalDate.parse(time).atStartOfDay();
+            } finally {
+                try {
+                    dateTime = LocalTime.parse(time).atDate(LocalDate.now());
+                } finally {
+                    return dateTime;
+                }
+            }
         }
     }
 }

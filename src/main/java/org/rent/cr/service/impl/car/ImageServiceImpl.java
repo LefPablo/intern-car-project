@@ -1,20 +1,16 @@
 package org.rent.cr.service.impl.car;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.apache.commons.io.FileUtils;
-import org.rent.cr.controller.ImageController;
-import org.rent.cr.entity.car.Image;
 import org.rent.cr.dao.repo.car.ImageRepository;
+import org.rent.cr.entity.car.Image;
 import org.rent.cr.service.ImageService;
 import org.rent.cr.service.impl.CrudServiceImpl;
-import org.rent.cr.util.SpringContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.*;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.ServletContextResource;
 
 import java.io.File;
 import java.io.IOException;

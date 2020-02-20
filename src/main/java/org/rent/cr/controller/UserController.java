@@ -20,6 +20,7 @@ public class UserController extends CrudController<User, UserService> {
     //Example of hidden of mapping
     @Override
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No message available")
-    public void deleteAll() {
+    public Object deleteAll() {
+        return null;
     }
 }

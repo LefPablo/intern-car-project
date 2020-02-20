@@ -6,12 +6,12 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public interface CrudService<T> {
-    T findById(int id) throws NoEntityException;
-    T save(T entity) throws NotSavedException;
-    T update(T entity);
-    void delete(T entity);
+public interface CrudService<E> {
+    E findById(int id) throws NoEntityException;
+    E save(E entity) throws NotSavedException;
+    E update(E entity, E source);
+    void delete(E entity);
     long deleteAll();
-    List<T> findAll();
-    Page<T> getPage(int p, int s, String field, String order, String filter);
+    List<E> findAll();
+    Page<E> getPage(int p, int s, String field, String order, String filter);
 }
