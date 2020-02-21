@@ -27,7 +27,7 @@ public class Order extends GeneralEntity {
     private List<Equipment> equipmentList;
 
     @JsonView(View.Exclude.class)
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Fine> fines;
 
     @JsonView(View.Exclude.class)

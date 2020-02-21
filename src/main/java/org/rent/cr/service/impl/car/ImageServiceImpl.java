@@ -6,6 +6,8 @@ import org.rent.cr.entity.car.Image;
 import org.rent.cr.service.ImageService;
 import org.rent.cr.service.impl.CrudServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -19,9 +21,11 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@PropertySource("classpath:path.properties")
 public class ImageServiceImpl extends CrudServiceImpl<Image, ImageRepository> implements ImageService {
 
-    private final String IMAGE_PATH = "static/images/cars/";
+    @Value("${path.image-source}")
+    private String IMAGE_PATH;
 
     @Autowired
     public ImageServiceImpl(ImageRepository imageRepository) {
@@ -29,15 +33,16 @@ public class ImageServiceImpl extends CrudServiceImpl<Image, ImageRepository> im
     }
 
     @Override
-    public String writeEncodedStringToFile(String name, String encodedString) throws IOException {
-
-        String filePath =  IMAGE_PATH + UUID.randomUUID().toString() + name;
+    public String writeEncodedStringToFile(String encodedString) throws IOException {
+        String fileName = UUID.randomUUID().toString();
+        String filePath =  IMAGE_PATH + fileName;
         byte[] decodedBytes = Base64
                 .getDecoder()
                 .decode(encodedString);
+
         File outputFile = new File(filePath);
         FileUtils.writeByteArrayToFile(outputFile , decodedBytes);
-        return filePath;
+        return fileName;
     }
 
     @Override

@@ -1,16 +1,18 @@
 package org.rent.cr.dto.car;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import org.rent.cr.dto.view.View;
 import org.rent.cr.entity.GeneralEntity;
 import org.rent.cr.entity.car.Car;
 import org.rent.cr.entity.car.Image;
 
 @Data
-public class ImageDto extends GeneralEntity {
-    private Car car;
+public class ImageUploadDto extends GeneralEntity {
     private Integer position;
     private String encodedString;
-    private String name;
+    @JsonView(View.Exclude.class)
+    private Car car;
 
     public Image toImage() {
         Image image = new Image();
@@ -20,9 +22,8 @@ public class ImageDto extends GeneralEntity {
     }
 
     public void toDto(Image image) {
-        this.position = image.getPosition();
         this.car = image.getCar();
-        this.name = image.getPath();
+        this.position = image.getPosition();
         this.setId(image.getId());
     }
 }

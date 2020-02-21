@@ -48,14 +48,14 @@ public class SecureUtils {
         printWriter.print(result);
     }
 
-    public void checkCredentials(Role necessaryRole, List<Role> registered, List<Role> sourceRoles, Role... protectedRoles) {
+    public boolean checkCredentials(Role necessaryRole, List<Role> registered, List<Role> sourceRoles, Role... protectedRoles) {
         for (Role role : protectedRoles) {
             if (sourceRoles.contains(role)) {
                 if (!SecureUtils.matchRoles(registered, necessaryRole)) {
-                    throw new AccessDeniedException("For this action you must have role [" + necessaryRole + "]");
+                    return false;
                 }
-                return;
             }
         }
+        return true;
     }
 }

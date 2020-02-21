@@ -25,9 +25,6 @@ public abstract class CrudController<E extends GeneralEntity, S extends CrudServ
     protected S service;
     private String entityName;
 
-    @Autowired
-    Validator validator;
-
     public CrudController(S service) {
         this.service = service;
         TypeToken<E> type = new TypeToken<E>(getClass()) {};

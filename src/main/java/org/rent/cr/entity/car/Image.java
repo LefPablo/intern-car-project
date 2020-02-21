@@ -20,7 +20,7 @@ public class Image extends GeneralEntity {
     private Car car;
 
     @Column(name = "imagepath")
-    private String path;
+    private String name;
 
     @Column(name = "imagepos")
     private Integer position;

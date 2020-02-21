@@ -8,6 +8,7 @@ import org.rent.cr.exception.NotSavedException;
 import org.rent.cr.service.EmployeeService;
 import org.rent.cr.util.SecureUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,14 +29,18 @@ public class EmployeeServiceImpl extends CrudServiceImpl<Employee, EmployeeRepos
     public Employee findById(int id) throws NoEntityException {
         Employee employee = super.findById(id);
         Employee registered = repository.findByEmail(SecureUtils.getUsernameFromAuthentication());
-        SecureUtils.checkCredentials(Role.ROLE_SUPERADMIN, registered.getRoles(), employee.getRoles(), Role.ROLE_SUPERADMIN);
+        if (SecureUtils.checkCredentials(Role.ROLE_SUPERADMIN, registered.getRoles(), employee.getRoles(), Role.ROLE_SUPERADMIN)){
+            throw new AccessDeniedException("For this action you must have role [" + Role.ROLE_SUPERADMIN + "]");
+        }
         return employee;
     }
 
     @Override
     public Employee save(Employee employee) throws NotSavedException {
         Employee registered = repository.findByEmail(SecureUtils.getUsernameFromAuthentication());
-        SecureUtils.checkCredentials(Role.ROLE_SUPERADMIN, registered.getRoles(), employee.getRoles(), Role.ROLE_SUPERADMIN, Role.ROLE_ADMIN);
+        if (SecureUtils.checkCredentials(Role.ROLE_SUPERADMIN, registered.getRoles(), employee.getRoles(), Role.ROLE_SUPERADMIN, Role.ROLE_ADMIN)){
+            throw new AccessDeniedException("For this action you must have role [" + Role.ROLE_SUPERADMIN + "]");
+        }
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         return super.save(employee);
     }
@@ -43,7 +48,9 @@ public class EmployeeServiceImpl extends CrudServiceImpl<Employee, EmployeeRepos
     @Override
     public Employee update(Employee employee, Employee source) {
         Employee registered = repository.findByEmail(SecureUtils.getUsernameFromAuthentication());
-        SecureUtils.checkCredentials(Role.ROLE_SUPERADMIN, registered.getRoles(), employee.getRoles(), Role.ROLE_SUPERADMIN, Role.ROLE_ADMIN);
+        if (SecureUtils.checkCredentials(Role.ROLE_SUPERADMIN, registered.getRoles(), employee.getRoles(), Role.ROLE_SUPERADMIN, Role.ROLE_ADMIN)){
+            throw new AccessDeniedException("For this action you must have role [" + Role.ROLE_SUPERADMIN + "]");
+        }
         if (source.getPassword() != null) {
             source.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         }

@@ -19,7 +19,7 @@ import java.util.List;
 @JsonView(View.Public.class)
 public class User extends GeneralEntity {
     @JsonIgnore
-    @OneToOne (mappedBy="user", fetch = FetchType.LAZY)
+    @OneToOne (mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Employee employee;
 
     @JsonIgnore
