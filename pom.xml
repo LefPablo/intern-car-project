@@ -22,7 +22,7 @@
         <postgresql.version>42.2.10</postgresql.version>
         <h2.version>1.4.200</h2.version>
         <lombok.version>1.18.10</lombok.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <mockito-core.version>3.2.4</mockito-core.version>
     </properties>
 
