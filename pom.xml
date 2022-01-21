@@ -20,7 +20,7 @@
         <rsql-parser.version>2.0.0</rsql-parser.version>
         <guava.version>28.2-jre</guava.version>
         <postgresql.version>42.2.10</postgresql.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.1.210</h2.version>
         <lombok.version>1.18.10</lombok.version>
         <commons-io.version>2.6</commons-io.version>
         <mockito-core.version>3.2.4</mockito-core.version>
